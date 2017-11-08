@@ -1,0 +1,25 @@
+.QuestionChoiceElement
+{
+   
+    background-color: #3B5998; 
+    margin: 5px;
+    padding: 5px;
+   color:black; 
+   border: 1px solid black;  
+     text-align:left;
+     border-radius: 5px;
+     cursor:pointer;
+}
+
+.QuestionChoiceElementSelected
+{
+   
+    background-color: yellow; 
+    margin: 5px;
+    padding: 5px;
+   color:black; 
+   border: 1px solid black;  
+     text-align:left;
+     border-radius: 5px;
+     cursor:pointer;
+}

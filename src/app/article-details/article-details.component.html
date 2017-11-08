@@ -1,0 +1,17 @@
+<div class="ModuleTitle">
+  <h2>Article Details</h2>
+</div>
+  <div *ngIf=article  [ngClass]="{'ArticleElementTile':true, 'ArticleElementTile_OK': (article.wiki_correct === true), 'ArticleElementTile_KO': (article.wiki_correct === false) }"> 
+      <h3>Name: {{article.article_name}}</h3>
+      <h3>Type: {{article.type}}</h3>
+      <h3>Correct: {{article.wiki_correct}} </h3>
+      <h3>selected: {{article.user_answer}} </h3>
+      <h3>url: {{article.thumbnail_url}} </h3>
+      <img *ngIf=article.thumbnail_url height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
+     
+
+      
+  </div>
+
+  
+

@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+.ModuleTitle
+{
+
+   
+  
+    background: #3B5998;
+    
+    border-radius: 10px 10px 10px 10px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+
+}
+
+.DashboardTile
+{
+
+   
+    margin: 4px;
+    padding: 15px;
+    background: white;
+    border: 2px solid #000000;
+    border-radius: 10px 10px 10px 10px;
+    color: black
+
+}
+
+.DashboardTile input
+{
+
+   
+   color:black;
+
+}
+
+
+
+.TileTitle
+{
+margin: 0.5em;
+background: #3B5998;
+border: 1px solid #FFFFFF;
+border-radius: 10px 10px 10px 10px;
+color:white;
+}

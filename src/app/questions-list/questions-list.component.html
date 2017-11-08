@@ -1,0 +1,65 @@
+
+    <div class="ModuleTitle">
+      <h2>Questions List</h2>
+    </div>
+    <div *ngIf=quiz >
+        <div *ngIf=quiz.is_finished class="DashboardTile">
+    <h3 *ngIf=quiz> selected: {{quiz.target_name}}</h3>
+    <hr>
+    
+   <div *ngIf=quiz>
+   
+   <!--
+    <div class="btn-group" dropdown>
+
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            {{quiz.target_name}} <span class="caret"></span>
+          </button>
+       
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li
+      *ngFor="let question of quiz.toasts_list"
+      (click)="onSelect(question.subject_OK.article_name)"
+      role="menuitem"
+      >
+      <a class="dropdown-item" href="#">
+    
+      {{ question.subject_OK.article_name }} 
+     </a>
+                
+    </li></ul>
+    </div>
+    <hr>
+  -->
+
+    <accordion>
+   
+<accordion-group *ngFor="let question of quiz.toasts_list; let i = index" class="QuestionAccordionElement">
+    
+    <div accordion-heading>
+        Question {{i+1}}
+        <span *ngIf=question.answered_ok class="badge badge-secondary float-right pull-right">Passed</span>
+        <span *ngIf= !question.answered_ok class="badge badge-secondary float-right pull-right">Failed</span>
+    </div>
+        <div
+        *ngFor="let article of question.article_shuffle_list; let j = index"
+        (mouseenter)="onSelect(article)"
+      >
+      
+      <div 
+      [ngClass]="{'QuestionChoiceElement':true, 'QuestionChoiceElementPassed': (article.wiki_correct == true), 'QuestionChoiceElementFailed': (article.wiki_correct == false &&  article.user_answer==true) }"
+      class="QuestionChoiceElement">
+          
+          
+        {{j}} - {{ article.article_name }}
+      </div>
+      
+          
+    </div>
+  
+  </accordion-group>
+  </accordion>
+   </div>
+  </div>
+</div>
+

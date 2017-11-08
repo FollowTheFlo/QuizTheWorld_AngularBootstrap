@@ -1,0 +1,23 @@
+
+<div class="ModuleTitle">
+      <h2>Quiz List</h2>
+    </div>     
+      <div *ngIf=quizesList.length class="DashboardTile">
+        <div class="QuizElementTile"
+          *ngFor="let quiz of quizesList | reverse; let ind = index"
+          (click)="onSelect(quiz,ind)"
+           [ngClass]="{'QuizElementTile':true, 'QuizElementTile': (selectedIndex !== ind), 'QuizElementTileSelected': (selectedIndex === ind) }"
+        >
+          <b>{{ quiz.target_name }}</b> <br> {{quiz.toasts_list.length}} Questions
+          <div *ngIf= !quiz.is_finished> 
+            <div *ngIf= !quiz.is_started><br>START QUIZ</div>
+            <div *ngIf= quiz.is_started><br>RESUME QUIZ</div>
+            </div>
+          <div *ngIf= quiz.is_finished> <br>QUIZ FINISHED</div>
+      </div>
+        </div>
+  
+          
+      
+
+

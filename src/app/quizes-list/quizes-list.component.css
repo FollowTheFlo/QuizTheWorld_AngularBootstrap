@@ -1,0 +1,29 @@
+.QuizElementTile
+{
+   
+    background-color: #3B5998; 
+    margin: 10px;
+   color:black; 
+     
+   border: 1px solid black;       
+     
+   border-radius: 5px;
+   
+     text-align:center;
+     cursor:pointer;
+}
+
+.QuizElementTileSelected
+{
+   
+    background-color: rgb(235, 238, 84); 
+    margin: 10px;
+   color:black; 
+     
+   border: 1px solid black;     
+   border-radius: 5px;  
+    
+   cursor:pointer;
+     text-align:center;
+}
+
