@@ -1,7 +1,8 @@
 
 .MainTitle
 {
-margin: 0.5em;
+margin-left: 4px;
+margin-right: 4px;
 background: #3B5998;
 border: 1px solid #FFFFFF;
 border-radius: 10px 10px 10px 10px;

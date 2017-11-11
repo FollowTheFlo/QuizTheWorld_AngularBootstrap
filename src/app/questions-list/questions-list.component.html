@@ -4,9 +4,9 @@
     </div>
     <div *ngIf=quiz >
         <div *ngIf=quiz.is_finished class="DashboardTile">
-    <h3 *ngIf=quiz> selected: {{quiz.target_name}}</h3>
+   <!-- <h3 *ngIf=quiz> selected: {{quiz.target_name}}</h3>
     <hr>
-    
+   -->
    <div *ngIf=quiz>
    
    <!--
@@ -51,7 +51,15 @@
       class="QuestionChoiceElement">
           
           
-        {{j}} - {{ article.article_name }}
+        
+        <div *ngIf= question.imageQuestion >
+          {{j+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
+      
+         </div>
+         <div *ngIf= !question.imageQuestion >
+          {{j+1}} - {{ article.article_name }}
+      
+         </div>
       </div>
       
           

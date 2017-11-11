@@ -11,7 +11,10 @@ export class QuizCreateComponent implements OnInit {
 
   loading:string='';
   sparql_response:string='nothing';
-  articleValid:boolean=false;
+  articleStatus:string="";
+  language:string="en";
+  checkBoxShowAnswer:boolean=false;
+  isCollapsed: boolean = true;
 
   constructor(private quizService:QuizService) { }
 
@@ -19,7 +22,26 @@ export class QuizCreateComponent implements OnInit {
   }
 
   maxQuestionsValue:number=3;
-  maxChoicesValue:number=2;
+  maxChoicesValue:number=3;
+
+  collapsed(event: any): void {
+    console.log(event);
+  }
+ 
+  expanded(event: any): void {
+    console.log(event);
+  }
+
+  onChangeShowAnswerCheckBox(){
+
+  this.checkBoxShowAnswer = !this.checkBoxShowAnswer;
+
+  this.quizService.setShowAnwserCheckBoxValue(this.checkBoxShowAnswer);
+  
+
+    //alert("onChangeShowAnswerCheckBox: "+this.checkBoxShowAnswer);
+  }
+
   clickCreateQuiz(articleInput: HTMLInputElement,maxQuestionsInput: HTMLInputElement,maxChoicesInput: HTMLInputElement): void {
 
 
@@ -27,15 +49,15 @@ export class QuizCreateComponent implements OnInit {
   this.loading='Loading';
       if(articleInput.value && maxQuestionsInput.value && maxChoicesInput.value)
       {
-        this.loading='Loading';
-        this.quizService.generateQuiz(articleInput.value,+maxQuestionsInput.value,+maxChoicesInput.value).then(
+        this.articleStatus='Loading';
+        this.quizService.generateQuiz(articleInput.value,+maxQuestionsInput.value,+maxChoicesInput.value,this.language).then(
           response => {
            
-            this.articleValid =  response;
+            this.articleStatus =  response;
 
-              console.log('isArticleValid: '+this.articleValid);
+              console.log('articleStatus: '+this.articleStatus);
             
-              this.loading = 'Finsh loading';
+              //this.loading = 'Finsh loading';
           
           }
           
@@ -43,12 +65,13 @@ export class QuizCreateComponent implements OnInit {
       }
       else
       {
-        console.log('keyworls empty');
+        console.log('Please fill all fields');
       }
     
   }
 
   QuestionsInc(): void{
+    if(this.maxQuestionsValue < 51)
     +this.maxQuestionsValue ++;
   }
   QuestionsDec(): void{
@@ -56,6 +79,7 @@ export class QuizCreateComponent implements OnInit {
       +this.maxQuestionsValue --;
   }
   ChoicesInc(): void{
+    if(this.maxChoicesValue < 51)
     +this.maxChoicesValue ++;
   }
   ChoicesDec(): void{
@@ -63,6 +87,15 @@ export class QuizCreateComponent implements OnInit {
       +this.maxChoicesValue --;
   }
 
+  onClickClearQuizesList(){
+
+    this.quizService.ClearQuizesList();
+  }
+
+  onClickLanguage(language:string){
+    this.language = language;
+
+  }
 
 }
 

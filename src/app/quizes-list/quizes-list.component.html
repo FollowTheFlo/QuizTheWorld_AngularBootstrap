@@ -4,16 +4,25 @@
     </div>     
       <div *ngIf=quizesList.length class="DashboardTile">
         <div class="QuizElementTile"
-          *ngFor="let quiz of quizesList | reverse; let ind = index"
+          *ngFor="let quiz of quizesList ; let ind = index"
           (click)="onSelect(quiz,ind)"
-           [ngClass]="{'QuizElementTile':true, 'QuizElementTile': (selectedIndex !== ind), 'QuizElementTileSelected': (selectedIndex === ind) }"
+           [ngClass]="{'QuizElementTile': (selectedIndex !== ind), 'QuizElementTileSelected': (selectedIndex === ind) }"
         >
-          <b>{{ quiz.target_name }}</b> <br> {{quiz.toasts_list.length}} Questions
+          <b>{{ quiz.target_name }}</b> ({{ quiz.language }}) <br> {{quiz.toasts_list.length}} Questions
+          <br>
           <div *ngIf= !quiz.is_finished> 
-            <div *ngIf= !quiz.is_started><br>START QUIZ</div>
-            <div *ngIf= quiz.is_started><br>RESUME QUIZ</div>
+            <div *ngIf= !quiz.is_started>
+              <div *ngIf= quiz.is_selected >ON PROGRESS</div>
+              <div *ngIf= !quiz.is_selected >START QUIZ</div>
+              </div>
+            <div *ngIf= quiz.is_started>
+                <div *ngIf= quiz.is_selected >ON PROGRESS</div>
+                <div *ngIf= !quiz.is_selected >RESUME QUIZ</div>
+
             </div>
-          <div *ngIf= quiz.is_finished> <br>QUIZ FINISHED</div>
+            </div>
+            
+          <div *ngIf= quiz.is_finished> QUIZ FINISHED</div>
       </div>
         </div>
   

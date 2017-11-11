@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 //import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { Subject } from 'rxjs/Subject';
+import { Article } from '../models/article';
 
 
 
@@ -22,30 +23,57 @@ QUIZES_ALL_INDEX:number=0;
     index_selection_list:number[];
     results: string[];
     target_subjects_count:number;
-    QuizAdded = new EventEmitter<Quiz[]>();
+    QuizChange = new EventEmitter<Quiz[]>();
     quizSelected = new Subject();
+    showAnswerCheckBox:boolean=false;
+   // ARTICLE_SUCCESS:number=0;
+   // ARTICLE_NOT_FOUND:number=1;
+   // NO_SUBJECT_FOUND:number=2
 
     constructor(private sparqlService:SparqlService) {}
 
+    getShowAnwserCheckBoxValue(){
 
+        return this.showAnswerCheckBox;
+    }
 
+    setShowAnwserCheckBoxValue(showAnswerCheckBox:boolean){
+        
+        this.showAnswerCheckBox = showAnswerCheckBox;
+    }
 
-  generateQuiz(article:string,maxQuestions:number,maxChoices:number):Promise<boolean>
+ClearQuizesList(){
+    this.QUIZES_ALL = [];
+    this.QuizChange.emit(this.QUIZES_ALL);
+    }
+/*
+RemoveEmptyQuizesFromList(){
+    let i:number=0
+    while(i<this.QUIZES_ALL.length){
+        if
+    }
+    this.QUIZES_ALL = [];
+    this.QuizChange.emit(this.QUIZES_ALL);
+    }
+*/
+    
+
+  generateQuiz(article:string,maxQuestions:number,maxChoices:number,language:string):Promise<string>
   {
 
 
 
     let promise =
-    new Promise<boolean>((resolve, reject) => {
+    new Promise<string>((resolve, reject) => {
        
-          this.sparqlService.getArticleCount(article).then(
+          this.sparqlService.getArticleCount(article,language).then(
               
             response => {
                 //response is the number of article returns from keyword, basically if the article exists, it is over 0
                 if(response>0)
                 {
                          ///////////////////
-                  this.sparqlService.getArticleSubjectCount(article).then(
+                  this.sparqlService.getArticleSubjectCount(article,language).then(
                     response => {
                     //response is number of subject that target article contains
                     if(response>0)
@@ -69,7 +97,7 @@ QUIZES_ALL_INDEX:number=0;
 
                         // we can create a the new quiz has we know we have at least one question (= one subject)
                         //(quiz_id:number,target_name:string,multiple_choices_number:number,max_questions_number:number)
-                        let quiz = new Quiz(this.QUIZES_ALL_INDEX,article,maxChoices,maxQuestions);
+                        let quiz = new Quiz(this.QUIZES_ALL_INDEX,article,maxChoices, this.index_selection_list.length,language);
 
                         
                             console.log('AtLeastOneValidQuestion, QUIZES_ALL_INDEX: '+this.QUIZES_ALL_INDEX);
@@ -83,22 +111,31 @@ QUIZES_ALL_INDEX:number=0;
                         {
                             console.log('0: this.index_selection_list[question_index]: '+this.index_selection_list[question_index]);
                             let selectionListIndex:number = this.index_selection_list[question_index];
-                            this.sparqlService.getSubjectDistractorsCount(this.index_selection_list[question_index],article).then(
+                            this.sparqlService.getSubjectDistractorsCount(this.index_selection_list[question_index],article,language).then(
                                 response => { 
                                     console.log('getSubjectDistractorsCount: '+response);
                                     console.log('1: this.index_selection_list[question_index]test: '+selectionListIndex);
                                     distractor_count = response;
-                                    if(distractor_count>0)
+                                    if(distractor_count==0)
                                     {
+                                        //add empty question, we will filter them later
+                                        let question = new Question();
+                                        quiz.toasts_list.push(question);
+
+                                    }else{
                                       random_distractor_index= this.random_num_out_of(distractor_count-1);
                                       console.log('random_distractor_index: '+random_distractor_index);
                                         
                                       let question = new Question();
                                       console.log('new Question created');
-                                  
+
+                                      if(question)
+                                        console.log("Question not null");
+                                      else
+                                         console.log("Question NULL!!!");
                                       //getOneQuestionWithArticles(question:Question,target_name:string,target_subject_index:number,distractor_index:number,distractor_subject_index:number,distractor_subject_number:number,SELECTED_LOCALE:string):Promise<boolean>{
          
-                                      this.sparqlService.getOneQuestionWithArticles(question,article,selectionListIndex,random_distractor_index,0,maxChoices,'en').then(
+                                      this.sparqlService.getOneQuestionWithArticles(question,article,selectionListIndex,random_distractor_index,0,maxChoices,language).then(
                                         response => { 
                                             //return is_valid
                                             console.log('getOneQuestionWithArticles: '+response);
@@ -106,12 +143,12 @@ QUIZES_ALL_INDEX:number=0;
                                            
 
                                             //response is true if question containing enough article to be valid
-                                            if(response)
-                                            {
+                                          //  if(response)
+                                          //  {
                                                 AtLeastOneValidQuestion = true;
-                                                console.log('info question, question.target_article.article_name: '+question.target_article.article_name);
-                                                console.log('info question, question.subject_OK.article_name: '+question.subject_OK.article_name);
-                                                console.log('info question, question.subject_KO[0].article_name: '+question.subject_KO[0].article_name);
+                                              //  console.log('info question, question.target_article.article_name: '+question.target_article.article_name);
+                                              //  console.log('info question, question.subject_OK.article_name: '+question.subject_OK.article_name);
+                                              //  console.log('info question, question.subject_KO[0].article_name: '+question.subject_KO[0].article_name);
 
                                                 
                                                
@@ -120,18 +157,36 @@ QUIZES_ALL_INDEX:number=0;
                                                
                                                console.log('Question added to toasts_list');
                                                 quiz.toasts_list.push(question);
+                                       
+                                                    if( quiz.toasts_list.length==quiz.max_questions_number)
+                                                       {
+                                                       //END of the Quiz Creation
 
-                                                question.article_shuffle_list.forEach(element => {
-                                                    console.log('info article_shuffle_list, article_name: '+ element.article_name);
-                                                    console.log('info article_shuffle_list, type: '+ element.type);
-                                                    console.log('info article_shuffle_list, wiki_correct: '+ element.wiki_correct);
-                                                });
+                                                        if(quiz.toasts_list.length==0){
+
+                                                            resolve("no question found");
+                                                        }else{
+                                                            this.removeEmptyQuestionsFromQuiz(quiz);
+                                                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: "+quiz.toasts_list.length);
+                                                            
+                                                            let imageSuccess = this.buildImageQuestion(quiz);
+                                                            console.log("END IMAGE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: "+imageSuccess);
+
+                                                            //this.QUIZES_ALL.unshift(quiz);
+                                                            //this.QUIZES_ALL_INDEX++;
+                                                            resolve("Finished Loading");
+                                                            this.QuizChange.emit(this.QUIZES_ALL);
+                                                        }
+                                                       }
+                                                      // else{
+
+                                                    //    resolve(''+((quiz.toasts_list.length/quiz.max_questions_number)*100));
+                                                    //   }
                                                 
-                                                if(question_index ==  this.index_selection_list.length -1 )
-                                                    resolve(true);
+                                                    
 
 
-                                            }
+                                            //}
 
                                         }
 
@@ -152,8 +207,11 @@ QUIZES_ALL_INDEX:number=0;
                                 });
                                 
                                 question_index++;
+                               
 
                         }
+
+                       
                         //add quiz to list if having at least one valid question
 
                         
@@ -162,8 +220,8 @@ QUIZES_ALL_INDEX:number=0;
     
     
                     }else{
-                        this.sparqlService.getpopup(' 0 so quit at getArticleSubjectCount' );
-    
+                       // this.sparqlService.getpopup(' 0 so quit at getArticleSubjectCount' );
+                       resolve("No Questions Found for this article");
                     }
                     
                     }
@@ -173,8 +231,8 @@ QUIZES_ALL_INDEX:number=0;
 
                     }
                     else{
-
-                        alert('0 so quit at getArticleCount')
+                        resolve("Article not found");
+                       // alert('0 so quit at getArticleCount')
                     }
 
                
@@ -182,7 +240,7 @@ QUIZES_ALL_INDEX:number=0;
         );
           //-----
 
-          this.QuizAdded.emit(this.QUIZES_ALL);
+          //this.QuizAdded.emit(this.QUIZES_ALL);
         
           })
           
@@ -191,6 +249,33 @@ QUIZES_ALL_INDEX:number=0;
 
     return promise;
     
+  }
+
+  removeEmptyQuestionsFromQuiz(quiz:Quiz)
+  {
+    let i:number=0;
+    let temp_questions_list:Question[]=[];
+    //temp_questions_list = quiz.toasts_list
+
+    while(i<quiz.toasts_list.length){
+
+        if(quiz.toasts_list[i].is_valid==true){
+            temp_questions_list.push(quiz.toasts_list[i]);
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: quiz.toasts_list[i].is_valid: "+i);
+
+        }
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: quiz.toasts_list[i].is_valid: "+i+", "+quiz.toasts_list[i].is_valid);
+        
+        i++;
+    }
+    quiz.toasts_list = temp_questions_list;
+    console.log("END AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION  temp_questions_list: "+ temp_questions_list.length);
+    console.log("END AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION  quiz.toasts_list: "+ quiz.toasts_list);
+    console.log("END AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION  temp_questions_list: "+ temp_questions_list.length);
+
+
+
+
   }
 
    get_random_list_indexes(index_number, total_number):number[]{
@@ -276,6 +361,69 @@ getQuizesList():Quiz[]
 {
 
     return this.QUIZES_ALL;
+}
+
+
+buildImageQuestion(quiz)
+{
+    let distractor_article_list:Article[]=[];
+    let i:number=0;
+    var j=0;
+    
+    var target_article;
+    
+    //we get the target article in index 0, could be any index as target_index always have the the same value
+    // sometimes SPARQL returns thumbnail 'undefined', need to filter them
+    if( quiz.toasts_list[0] && quiz.toasts_list[0].target_article && quiz.toasts_list[0].target_article.thumbnail_url != "" && quiz.toasts_list[0].target_article.thumbnail_url != "undefined")
+         target_article = quiz.toasts_list[0].target_article;
+    else 
+        return false;
+
+    
+    
+    //max_questions_number-1 as exclude OK choice
+    while((i< quiz.toasts_list.length) && (i<(quiz.multiple_choices_number-1)))
+    {
+            if(quiz.toasts_list[i] && quiz.toasts_list[i].distractor_article && quiz.toasts_list[i].distractor_article.thumbnail_url != "" && quiz.toasts_list[i].distractor_article.thumbnail_url != "undefined")
+            {
+                
+                    distractor_article_list[j] = quiz.toasts_list[i].distractor_article;
+                    j++;
+            }
+                
+            i++;
+            
+    }
+    
+    if(distractor_article_list.length == 0)
+        return false;
+    
+        
+    let imageQuestion:Question = new Question();
+    imageQuestion.imageQuestion=true;
+
+    imageQuestion.subject_OK = target_article;
+    imageQuestion.subject_KO = distractor_article_list;
+    this.build_choices_list(imageQuestion);
+   // imageQuestion.build_imageQuestion(target_article,distractor_article_list);
+    quiz.toasts_list.splice(this.random_num_out_of(quiz.toasts_list.length),1,imageQuestion);
+    
+    return true;
+    
+}
+
+
+setQuizList(newQuizList:Quiz[])
+{
+    this.QUIZES_ALL = newQuizList;
+    this.QuizChange.emit(this.QUIZES_ALL);
+
+}
+
+getQuizesListCopy(){
+
+    return this.QUIZES_ALL.slice();
+
 }
 
 }

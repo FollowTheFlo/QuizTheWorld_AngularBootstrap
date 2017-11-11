@@ -13,8 +13,13 @@ import { ArticleDetailsComponent } from './article-details/article-details.compo
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { QuizRunComponent } from './quiz-run/quiz-run.component';
 import {NgPipesModule} from 'ngx-pipes';
+import { QuizSaveComponent } from './quiz-save/quiz-save.component';
+import  {DataStorageService} from './services/data-storage.service';
+import  {UserService} from './services/user.service';
 
 
 
@@ -26,7 +31,9 @@ import {NgPipesModule} from 'ngx-pipes';
     QuizesListComponent,
     QuestionsListComponent,
     ArticleDetailsComponent,
-    QuizRunComponent
+    QuizRunComponent,
+    QuizSaveComponent,
+    
 
   ],
   imports: [
@@ -36,10 +43,13 @@ import {NgPipesModule} from 'ngx-pipes';
     BsDropdownModule.forRoot(),
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     NgPipesModule
     
   ],
-  providers: [SparqlService,QuizService,QuestionService],
+  providers: [SparqlService,QuizService,QuestionService,DataStorageService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

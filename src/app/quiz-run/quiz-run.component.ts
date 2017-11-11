@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef  } from '@angular/core';
 import { Quiz } from '../models/quiz';
 import { Question } from '../models/question';
 import { Article } from '../models/article';
 import { QuizService } from '../services/quiz.service';
 import { QuestionService } from '../services/question.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-quiz-run',
@@ -18,8 +21,11 @@ export class QuizRunComponent implements OnInit {
   currentQuestion:Question;
   NextButtonValue:string='Next';
   totalScoreString:string='';
+  modalRef: BsModalRef;
+  correctString:string="";
+  CorrectionQuestion:Question;
 
-  constructor(private quizService:QuizService, private questionService:QuestionService) { }
+  constructor(private quizService:QuizService, private questionService:QuestionService,private sanitizer:DomSanitizer,private modalService: BsModalService) { }
 
 
 
@@ -28,35 +34,57 @@ export class QuizRunComponent implements OnInit {
       (selectedQuiz: Quiz) => {
        this.quiz = selectedQuiz;
        this.totalQuestions = this.quiz.toasts_list.length;
-       this.currentQuestion = this.quiz.toasts_list[0];
-       this.NextButtonValue='Next';
-       this.currentQuestionIndex=0;
+       console.log("this.totalQuestions: "+this.totalQuestions);
+       this.currentQuestionIndex=this.getIndexIfQuizResume();
+       this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
+       this.CalculateTotalScore();
+             
       }
     );
 
 
-   
+  }
 
-/*
-    this.quizService.QuizAdded
-    .subscribe(
-      (quizes: Quiz[]) => {
-        this.quiz = quizes[quizes.length-1];
-        this.totalQuestions = this.quiz.toasts_list.length;
-        this.currentQuestion = this.quiz.toasts_list[0];
-        this.NextButtonValue='Next';
-        this.currentQuestionIndex=0;
-        alert('here: ' + (quizes.length-1));
-      //  this.quizService.quizSelected.next(this.quizesList[ this.quizesList.length-1]);
+  checkCurrentAnswerOK(){
+
+ 
+
+  }
+
+ GetChoiceUserSelectionIndex()
+  {
+    let i:number=0;
+    let selectedIndex:number=0;
+    while(i<  this.currentQuestion.article_shuffle_list.length){
+      if(this.currentQuestion.article_shuffle_list[i].user_answer==true)
+      {
+        selectedIndex= i;
       }
-    );
-    */
+      i++;
+    }
+
+    if(this.currentQuestion.article_shuffle_list[selectedIndex].user_answer && this.currentQuestion.article_shuffle_list[selectedIndex].wiki_correct)
+    {
+      //correct answer
+      this.correctString = "Correct!";
+    }
+    else{
+      this.correctString = "Wrong!";
+
+    }
+    this.CorrectionQuestion = this.currentQuestion;
+
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   getIndexIfQuizResume():number
   {
   let i:number=0;
   let lastAnsweredQuestion:number=0;
+  this.NextButtonValue='Next';
 
   while(i<this.quiz.toasts_list.length)
   {
@@ -67,6 +95,9 @@ export class QuizRunComponent implements OnInit {
     i++;
 
   }
+
+  if(lastAnsweredQuestion == this.quiz.toasts_list.length-1)
+    this.NextButtonValue = 'Finish';
 
   return lastAnsweredQuestion;
  
@@ -92,13 +123,21 @@ export class QuizRunComponent implements OnInit {
 
   }
 
-  onClickNextQuestion(){
+  onClickNextQuestion(template: TemplateRef<any>){
 
     if(this.currentQuestion.answered==false)
     {
-      alert('Please select an asnwer');
+      alert('Please select an answer');
       return;
     }
+    
+    if(this.quizService.getShowAnwserCheckBoxValue())
+    {
+      this.GetChoiceUserSelectionIndex();
+      this.modalRef = this.modalService.show(template);
+    }
+   
+   
 
     if(this.currentQuestionIndex == this.quiz.toasts_list.length -2)
     {
@@ -136,6 +175,7 @@ export class QuizRunComponent implements OnInit {
 
   CalculateTotalScore()
   {
+    console.log('CalculateTotalScore');
 let i:number=0;
 
 while(i< this.quiz.toasts_list.length)

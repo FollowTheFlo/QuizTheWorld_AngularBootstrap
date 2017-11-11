@@ -4,28 +4,115 @@
     <h2 *ngIf=!quiz.is_finished>Answer Quiz</h2>
     </div>
 <div *ngIf=currentQuestion class="DashboardTile">
-  
+   
   <h3 *ngIf=quiz.is_finished> {{totalScoreString}}</h3>
   
   <div *ngIf= !quiz.is_finished>
-      <h3>Page: {{currentQuestionIndex+1}} / {{quiz.toasts_list.length}}</h3>
+    
+      <h4>{{currentQuestionIndex+1}} / {{quiz.toasts_list.length}}</h4>
     <div class="btn-group">
         <label class="btn btn-primary" (click)="onClickPreviousQuestion()" btnCheckbox>Previous</label>
-      <label class="btn btn-primary" (click)="onClickNextQuestion()" btnCheckbox>{{NextButtonValue}}</label>
+      <label class="btn btn-primary" (click)="onClickNextQuestion(template)" btnCheckbox>{{NextButtonValue}}</label>
       
       
     </div>
-
+    <h3><b>'{{ quiz.target_name}}'</b> is best related to :</h3>
     <div
     *ngFor="let article of currentQuestion.article_shuffle_list; let j = index"
     
   >
   <div 
-  [ngClass]="{'QuestionChoiceElement':true, 'QuestionChoiceElementSelected': (article.user_answer == true), 'QuestionChoiceElement': (article.user_answer == false) }"
+  [ngClass]="{'QuestionChoiceElementSelected': (article.user_answer == true), 'QuestionChoiceElement': (article.user_answer == false) }"
   class="QuestionChoiceElement" (click)="onClickSelectQuestion(j)">
+   <div *ngIf= currentQuestion.imageQuestion >
+    {{j+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
+
+   </div>
+   <div *ngIf= !currentQuestion.imageQuestion >
     {{j+1}} - {{ article.article_name }}
+
+   </div>
+  
   </div>
       
   </div>
 </div>
 </div>
+
+<ng-template #template>
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      <div class="modal-header text-center">
+        <h4>Question {{currentQuestionIndex}}</h4>
+      </div>
+      <div class="modal-body text-center">
+        <h3>{{correctString}}</h3>
+        
+              <div
+              *ngFor="let c_article of CorrectionQuestion.article_shuffle_list; let k = index"
+              
+            >
+            
+            <div 
+            [ngClass]="{'QuestionChoiceElement':true, 'QuestionChoiceElementPassed': (c_article.wiki_correct == true), 'QuestionChoiceElementFailed': (c_article.wiki_correct == false &&  c_article.user_answer==true) }"
+            class="QuestionChoiceElement">
+                
+                
+              
+              <div *ngIf= CorrectionQuestion.imageQuestion >
+                {{k+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(c_article.thumbnail_url)"/>
+            
+               </div>
+               <div *ngIf= !CorrectionQuestion.imageQuestion >
+                {{k+1}} - {{ c_article.article_name }}
+            
+               </div>
+            </div>
+            
+                
+          </div>
+        </div>
+        </div>
+    </div>
+    
+ <!--   
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Question {{currentQuestionIndex}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     
+      <h3>{{correctString}}</h3>
+
+      <div
+      *ngFor="let c_article of CorrectionQuestion.article_shuffle_list; let k = index"
+      
+    >
+    
+    <div 
+    [ngClass]="{'QuestionChoiceElement':true, 'QuestionChoiceElementPassed': (c_article.wiki_correct == true), 'QuestionChoiceElementFailed': (c_article.wiki_correct == false &&  c_article.user_answer==true) }"
+    class="QuestionChoiceElement">
+        
+        
+      
+      <div *ngIf= CorrectionQuestion.imageQuestion >
+        {{k+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(c_article.thumbnail_url)"/>
+    
+       </div>
+       <div *ngIf= !CorrectionQuestion.imageQuestion >
+        {{k+1}} - {{ c_article.article_name }}
+    
+       </div>
+    </div>
+    
+        
+  </div>
+    </div>
+  -->
+  </ng-template>

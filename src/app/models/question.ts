@@ -14,6 +14,7 @@ export class Question{
 	is_valid:boolean = false;
 	answered:boolean=false;
 	answered_ok:boolean=false;
+	imageQuestion:boolean=false;
 
    
 }

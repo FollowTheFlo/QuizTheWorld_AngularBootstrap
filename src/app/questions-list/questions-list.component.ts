@@ -4,6 +4,7 @@ import { Question } from '../models/question';
 import { Article } from '../models/article';
 import { QuizService } from '../services/quiz.service';
 import { QuestionService } from '../services/question.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class QuestionsListComponent implements OnInit {
 
 quiz:Quiz;
 
-  constructor(private quizService:QuizService, private questionService:QuestionService) { }
+  constructor(private quizService:QuizService, private questionService:QuestionService,private sanitizer:DomSanitizer) { }
 
   ngOnInit() {
     this.quizService.quizSelected.subscribe(

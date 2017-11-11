@@ -4,3 +4,14 @@
     align-items: center;
 }
 
+.loadingStatus
+{
+    text-align: center;
+    color:red;
+}
+
+.CreateTileStyle
+{
+    text-align: center;
+   
+}

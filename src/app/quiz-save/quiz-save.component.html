@@ -1,0 +1,12 @@
+<div class="DashboardTile">
+    <label>Username:</label> <input type="text" #usernameInput value="Florent"/>
+    <div class="CreateButtonStyle"><button type="button" class="btn btn-primary" (click)="onClickSaveQuizList(usernameInput)">
+    Save Quiz list on DB
+  </button>
+</div>
+<div class="CreateButtonStyle">
+  <button type="button" class="btn btn-primary" (click)="onClickRetrieveQuizList(usernameInput)">
+      Retrieve Quiz list from DB
+    </button>
+  </div>
+</div>
