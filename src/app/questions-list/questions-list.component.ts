@@ -22,6 +22,7 @@ quiz:Quiz;
     this.quizService.quizSelected.subscribe(
       (selectedQuiz: Quiz) => {
        this.quiz = selectedQuiz;
+      
       }
     );
    // this.quiz.toasts_list[0].article_shuffle_list

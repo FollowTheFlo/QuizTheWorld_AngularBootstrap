@@ -205,6 +205,7 @@ while(i< this.quiz.toasts_list.length)
   }
 
   this.quiz.final_score = +((good_answers/this.quiz.toasts_list.length) * 100).toFixed(0);
+  this.quiz.good_answers_count = good_answers;
   this.totalScoreString = 'Results: '+ this.quiz.final_score + '%(' + good_answers + ' / ' + this.quiz.toasts_list.length +')';
   }
 

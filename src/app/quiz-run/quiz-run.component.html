@@ -1,12 +1,12 @@
-
-<div *ngIf=currentQuestion class="ModuleTitle">
-    <h2 *ngIf=quiz.is_finished>Quiz Result</h2>
+<div *ngIf=quiz>
+<div *ngIf=!quiz.is_finished class="ModuleTitle">
+   
     <h2 *ngIf=!quiz.is_finished>Answer Quiz</h2>
     </div>
-<div *ngIf=currentQuestion class="DashboardTile">
-   
+<div *ngIf=!quiz.is_finished class="DashboardTile">
+   <!--
   <h3 *ngIf=quiz.is_finished> {{totalScoreString}}</h3>
-  
+   -->
   <div *ngIf= !quiz.is_finished>
     
       <h4>{{currentQuestionIndex+1}} / {{quiz.toasts_list.length}}</h4>
@@ -24,8 +24,8 @@
   <div 
   [ngClass]="{'QuestionChoiceElementSelected': (article.user_answer == true), 'QuestionChoiceElement': (article.user_answer == false) }"
   class="QuestionChoiceElement" (click)="onClickSelectQuestion(j)">
-   <div *ngIf= currentQuestion.imageQuestion >
-    {{j+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
+   <div style='text-align: center;' *ngIf= currentQuestion.imageQuestion >
+    {{j+1}} - <img  height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
 
    </div>
    <div *ngIf= !currentQuestion.imageQuestion >
@@ -36,6 +36,7 @@
   </div>
       
   </div>
+</div>
 </div>
 </div>
 

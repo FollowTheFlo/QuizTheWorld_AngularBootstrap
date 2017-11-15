@@ -7,28 +7,36 @@
 </div>
       </div>
       <div class="row" style="text-align:center;">
-      <div class="col-sm-3"></div>
-      <div class="col-sm-6">
-      <app-quiz-run></app-quiz-run>
+      <div class="col-sm-3">
+
+          <app-quiz-create></app-quiz-create>
+          <app-quiz-save></app-quiz-save>
+
       </div>
-      <div class="col-sm-3"></div>
+      
+        <div *ngIf=quizesList.length class="col-sm-3">
+            
+                      <app-quizes-list></app-quizes-list>
+            
+                  </div>
+        <div *ngIf=quizesList.length class="col-sm-6">
+          <app-quiz-run></app-quiz-run>
+          
+            <app-questions-list></app-questions-list>
+        
+        </div>
+        <div *ngIf=!quizesList.length class="col-sm-9"> 
+
+            <app-intro></app-intro>
+        </div>
+    
+   
+
+     
+      
       </div>
    
-  <div class="row">
-    <div class="col-sm-3">
-      <app-quiz-create></app-quiz-create>
-      <app-quiz-save></app-quiz-save>
-  </div>
-    <div class="col-sm-3">
-      <app-quizes-list></app-quizes-list>
-    </div>
-    <div class="col-sm-3">
-        <app-questions-list></app-questions-list>
-      </div>
-      <div class="col-sm-3">
-      <app-article-details></app-article-details>
-    </div>
-  </div>
+  
   <div class="row">
       <div class="col-sm-12">
     <div class="FooterBar">Florent Letendre - 2017 </div>

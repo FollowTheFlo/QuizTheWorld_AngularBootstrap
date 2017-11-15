@@ -1,7 +1,7 @@
 
-<div class="ModuleTitle">
+<div *ngIf=quizesList.length class="ModuleTitle">
       <h2>Quiz List</h2>
-    </div>     
+  </div>     
       <div *ngIf=quizesList.length class="DashboardTile">
         <div class="QuizElementTile"
           *ngFor="let quiz of quizesList ; let ind = index"
@@ -22,7 +22,10 @@
             </div>
             </div>
             
-          <div *ngIf= quiz.is_finished> QUIZ FINISHED</div>
+          <div *ngIf= quiz.is_finished> QUIZ FINISHED <br/>
+            {{quiz.final_score}}%
+
+          </div>
       </div>
         </div>
   

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { QuizService } from './services/quiz.service';
+import { Quiz } from './models/quiz';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  quizesList:Quiz[];
+
+  constructor(private quizService:QuizService) { }
+
+  ngOnInit() {
+    this.quizesList = this.quizService.getQuizesList();
+
+    this.quizService.QuizChange
+    .subscribe(
+      (quizes: Quiz[]) => {
+        this.quizesList = quizes;
+               
+      }
+    );
+  }
+
 }
+
+

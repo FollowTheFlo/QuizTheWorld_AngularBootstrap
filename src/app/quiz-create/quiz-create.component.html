@@ -1,33 +1,36 @@
 
   <div class="ModuleTitle">
-    <h2>Create Quiz</h2>
+    <h2>Launch Quiz</h2>
 </div>
   <div class="DashboardTile">
-  <label>Enter Article:</label> <input type="text" #articleNameInput value="Paris"/>
+  <label>Enter Subject:</label> <input type="text" #articleNameInput value="Paris"/>
   <div class="loadingStatus">{{articleStatus}}</div>
   <div class="CreateButtonStyle">
    
 
-    <div class="btn-group" dropdown>
-      <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-        {{language}} 
-      </button>
-      <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">En</div></li>
-        <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">Fr</div>
-      </ul>
-    </div>
+    
 
  
-    <button type="button" class="btn btn-primary" (click)="clickCreateQuiz(articleNameInput,maxQuestionsInput,maxChoicesInput)">
-      Create Quiz
+    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput,maxQuestionsInput,maxChoicesInput)">
+      Launch Quiz
     </button>
+
+   
  
   </div>
 
   
   <div class="CreateButtonStyle">
+      <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            {{language}} 
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">En</div></li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">Fr</div>
+          </ul>
+        </div>
   <button type="button" class="btn btn-primary"
   (click)="isCollapsed = !isCollapsed">Options
 </button>

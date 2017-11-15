@@ -20,7 +20,8 @@ export class Quiz {
       is_selected:boolean=false;
       final_score:number = 0;
       final_questions_number:number=0;
-      //start_timestamp:string =  new Date().toLocaleString();
+      good_answers_count:number=0;
+      start_timestamp:string =  new Date().toLocaleString();
       ////
 
     constructor(quiz_id:number,target_name:string,multiple_choices_number:number,max_questions_number:number,language:string)

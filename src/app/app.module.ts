@@ -20,6 +20,7 @@ import {NgPipesModule} from 'ngx-pipes';
 import { QuizSaveComponent } from './quiz-save/quiz-save.component';
 import  {DataStorageService} from './services/data-storage.service';
 import  {UserService} from './services/user.service';
+import { IntroComponent } from './intro/intro.component';
 
 
 
@@ -33,6 +34,7 @@ import  {UserService} from './services/user.service';
     ArticleDetailsComponent,
     QuizRunComponent,
     QuizSaveComponent,
+    IntroComponent,
     
 
   ],
