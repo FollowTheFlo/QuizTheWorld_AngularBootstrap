@@ -6,6 +6,9 @@ import 'rxjs/add/operator/toPromise';
 import  { Question } from "../models/question";
 import { Quiz } from '../models/quiz';
 import { Article } from '../models/article';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+
 
 
 @Injectable()
@@ -13,6 +16,55 @@ export class SparqlService {
     results: string[];
     target_subjects_count:number;
     constructor(private http: HttpClient) {}
+
+
+    getTargetSuggestions(article:string,language:string):Promise<string[]>{
+
+        let SuggestionsList:string[]=[];
+        let Query_target_suggestions:string = this.get_locale_SPARQL_url(language)+"?query=PREFIX dbp: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema%23> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns%23>PREFIX dbpprop: <http://dbpedia.org/property> PREFIX skos: <http://www.w3.org/2004/02/skos/core%23> PREFIX dcterms: <http://purl.org/dc/terms/>  PREFIX foaf: <http://xmlns.com/foaf/0.1/>"+
+        "SELECT distinct ?suggestion_label WHERE {"+
+        "?article rdfs:label ?suggestion_label."+
+        "FILTER langMatches( lang(?suggestion_label ), '"+language+"')."+
+        "FILTER regex(?suggestion_label ,'"+article+"','i')"+
+        "}LIMIT 10 &format=json";
+
+        let promise = new Promise<string[]>((resolve, reject) => {
+
+            this.http.get(Query_target_suggestions)
+            .timeout(10000 )
+            .toPromise()
+            .then(
+              res => { // Success
+
+                 let i:number=0;
+                while (  i < res['results']['bindings'].length)
+                { 
+                    console.log("Query_target_suggestions loop: "+i);
+                    if(res['results'] && res['results']['bindings'][''+i]  && res['results']['bindings'][''+i]['suggestion_label'] )
+                    {
+                        SuggestionsList.push(res['results']['bindings'][''+i]['suggestion_label']['value']);
+
+                        console.log("SuggestionsList: "+i + " ->  "+res['results']['bindings'][''+i]['suggestion_label']['value']);
+
+                    }
+                    i++;
+                
+                }
+                resolve(SuggestionsList);
+            },
+            msg => { // Error
+                console.log('sparql error: '+msg);
+                reject(msg);
+                
+                }
+        
+        );
+              
+
+        });
+
+        return promise;
+    }
 
     getArticleCount(article:string,language:string):Promise<number>{
         

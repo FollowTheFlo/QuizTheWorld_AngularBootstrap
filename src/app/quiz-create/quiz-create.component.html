@@ -3,20 +3,29 @@
     <h2>Launch Quiz</h2>
 </div>
   <div class="DashboardTile">
-  <label>Enter Subject:</label> <input type="text" #articleNameInput value="Paris"/>
+  <label>Enter Subject:</label> <input type="text" #articleNameInput value={{targetInputValue}}/>
   <div class="loadingStatus">{{articleStatus}}</div>
+
+  <div *ngIf=showSuggestions class="btn-group" dropdown>
+  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+   Show Suggestions 
+  </button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li class="suggestionElement" role="menuitem" *ngFor="let suggestion of suggestionsList; let i = index" 
+    (click)="clickCreateQuiz(suggestion,maxQuestionsInput,maxChoicesInput)"
+    >
+      {{suggestion}}
+
+    </li>
+  </ul>
+</div>
+
   <div class="CreateButtonStyle">
    
-
-    
-
- 
-    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput,maxQuestionsInput,maxChoicesInput)">
+    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)">
       Launch Quiz
     </button>
 
-   
- 
   </div>
 
   

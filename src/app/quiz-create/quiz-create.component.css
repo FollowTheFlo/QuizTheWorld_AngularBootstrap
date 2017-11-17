@@ -16,3 +16,9 @@
     text-align: center;
    
 }
+
+.suggestionElement
+{
+
+    cursor:pointer;
+}

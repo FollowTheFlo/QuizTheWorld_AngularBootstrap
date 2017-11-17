@@ -15,6 +15,9 @@ export class QuizCreateComponent implements OnInit {
   language:string="en";
   checkBoxShowAnswer:boolean=false;
   isCollapsed: boolean = true;
+  suggestionsList:string[] = [];
+  showSuggestions:boolean = false;
+  targetInputValue:string = "Paris";
 
   constructor(private quizService:QuizService) { }
 
@@ -42,24 +45,91 @@ export class QuizCreateComponent implements OnInit {
     //alert("onChangeShowAnswerCheckBox: "+this.checkBoxShowAnswer);
   }
 
-  clickCreateQuiz(articleInput: HTMLInputElement,maxQuestionsInput: HTMLInputElement,maxChoicesInput: HTMLInputElement): void {
+  capitalizeFirstLetter(articleString:string) {
+
+/*
+    return articleString
+    .toLowerCase()
+    .split(' ')
+    .map(function(word) {
+        return word[0].toUpperCase() + word.substr(1);
+    })
+    .join(' ');
+    */
+    return articleString.charAt(0).toUpperCase() + articleString.slice(1);
+}
 
 
+  clickCreateQuiz(articleInputString:string,maxQuestionsInput: HTMLInputElement,maxChoicesInput: HTMLInputElement): void {
 
+    articleInputString = this.capitalizeFirstLetter(articleInputString);
+    this.targetInputValue = articleInputString;
+    this.showSuggestions = false;
   this.loading='Loading';
-      if(articleInput.value && maxQuestionsInput.value && maxChoicesInput.value)
+      if(articleInputString && maxQuestionsInput.value && maxChoicesInput.value)
       {
         this.articleStatus='Loading';
-        this.quizService.generateQuiz(articleInput.value,+maxQuestionsInput.value,+maxChoicesInput.value,this.language).then(
+        this.quizService.generateQuiz(articleInputString,+maxQuestionsInput.value,+maxChoicesInput.value,this.language).then(
           response => {
            
             this.articleStatus =  response;
 
               console.log('articleStatus: '+this.articleStatus);
+
+              if(response == 'no_target_suggestions')
+              {
+                this.articleStatus= "Subject not found, Loading Suggestions";
+                this.quizService.getSuggestions(articleInputString,this.language).then(
+                  response => {
+                   // this.suggestionsList = response;
+
+                    if(response.length >0)
+                    {
+                      this.suggestionsList = response;
+                      this.articleStatus="No Subject found. See below subjects suggestions";
+                      this.showSuggestions = true;
+                    }
+                    else{
+
+                      this.articleStatus="no Suggestions found";
+                    }
+
+                  },
+                  msg=>{  
+                    console.log('in Reject: quiz-create');
+                    this.articleStatus=msg;
+                  });
+               
+                //this.articleStatus='Not found, see below suggestions:';
+              }
+              else if(response == 'no_subject_suggestions')
+              {
+                this.articleStatus= "No questions found for this subject. Loading Suggestions";
+                this.quizService.getSuggestions(articleInputString,this.language).then(
+                  response => {
+                   // this.suggestionsList = response;
+
+                    if(response.length >0)
+                    {
+                      this.suggestionsList = response;
+                      this.articleStatus="No questions found for this subject. See below subjects suggestions";
+                      this.showSuggestions = true;
+                    }
+                    else{
+
+                      this.articleStatus="no Suggestions found";
+                    }
+
+                  },
+                  reject=>{  
+                    this.showSuggestions = false;
+                    this.articleStatus="Timeout, please Try with another subject";});
+              }
             
               //this.loading = 'Finsh loading';
           
-          }
+          },
+          reject=> {this.articleStatus="Error, check your network connection";}
           
         );
       }

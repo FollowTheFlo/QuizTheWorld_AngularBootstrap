@@ -26,6 +26,7 @@ QUIZES_ALL_INDEX:number=0;
     QuizChange = new EventEmitter<Quiz[]>();
     quizSelected = new Subject();
     showAnswerCheckBox:boolean=false;
+    suggestionsList:string[] = [];
    // ARTICLE_SUCCESS:number=0;
    // ARTICLE_NOT_FOUND:number=1;
    // NO_SUBJECT_FOUND:number=2
@@ -56,6 +57,7 @@ RemoveEmptyQuizesFromList(){
     this.QuizChange.emit(this.QUIZES_ALL);
     }
 */
+
     
 
   generateQuiz(article:string,maxQuestions:number,maxChoices:number,language:string):Promise<string>
@@ -164,29 +166,32 @@ RemoveEmptyQuizesFromList(){
 
                                                         if(quiz.toasts_list.length==0){
 
-                                                            resolve("no question found");
+                                                            resolve("no_subject_suggestions");
                                                         }else{
-                                                            this.removeEmptyQuestionsFromQuiz(quiz);
-                                                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: "+quiz.toasts_list.length);
+                                                            if(!this.removeEmptyQuestionsFromQuiz(quiz))
+                                                            {
+                                                             
+                                                                this.QUIZES_ALL.shift();
+                                                                this.QUIZES_ALL_INDEX--;
+                                                                resolve("no_subject_suggestions");
+                                                            }else
+                                                            {
+                                                                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: "+quiz.toasts_list.length);
+                                                                
+                                                                let imageSuccess = this.buildImageQuestion(quiz);
+                                                                console.log("END IMAGE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: "+imageSuccess);
+    
                                                             
-                                                            let imageSuccess = this.buildImageQuestion(quiz);
-                                                            console.log("END IMAGE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: "+imageSuccess);
+                                                                this.QuizChange.emit(this.QUIZES_ALL);
+                                                                resolve("Finished Loading");
 
-                                                            //this.QUIZES_ALL.unshift(quiz);
-                                                            //this.QUIZES_ALL_INDEX++;
-                                                            resolve("Finished Loading");
-                                                            this.QuizChange.emit(this.QUIZES_ALL);
+                                                            }
+
+
+                                                          
                                                         }
                                                        }
-                                                      // else{
-
-                                                    //    resolve(''+((quiz.toasts_list.length/quiz.max_questions_number)*100));
-                                                    //   }
-                                                
-                                                    
-
-
-                                            //}
+                                                      
 
                                         }
 
@@ -221,7 +226,9 @@ RemoveEmptyQuizesFromList(){
     
                     }else{
                        // this.sparqlService.getpopup(' 0 so quit at getArticleSubjectCount' );
-                       resolve("No Questions Found for this article");
+                      // resolve("No Questions Found for this subject");
+
+                      resolve("no_subject_suggestions");
                     }
                     
                     }
@@ -231,7 +238,11 @@ RemoveEmptyQuizesFromList(){
 
                     }
                     else{
-                        resolve("Article not found");
+                        
+                        
+                       
+                                resolve("no_target_suggestions");
+                             
                        // alert('0 so quit at getArticleCount')
                     }
 
@@ -251,7 +262,7 @@ RemoveEmptyQuizesFromList(){
     
   }
 
-  removeEmptyQuestionsFromQuiz(quiz:Quiz)
+  removeEmptyQuestionsFromQuiz(quiz:Quiz):boolean
   {
     let i:number=0;
     let temp_questions_list:Question[]=[];
@@ -264,7 +275,7 @@ RemoveEmptyQuizesFromList(){
             console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: quiz.toasts_list[i].is_valid: "+i);
 
         }
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION: quiz.toasts_list[i].is_valid: "+i+", "+quiz.toasts_list[i].is_valid);
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: OUT of CONDITION: quiz.toasts_list[i].is_valid: "+i+", "+quiz.toasts_list[i].is_valid);
         
         i++;
     }
@@ -273,7 +284,10 @@ RemoveEmptyQuizesFromList(){
     console.log("END AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION  quiz.toasts_list: "+ quiz.toasts_list);
     console.log("END AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdd: IN CONDITION  temp_questions_list: "+ temp_questions_list.length);
 
-
+    if(temp_questions_list.length == 0)
+        return false;
+     else
+      return true;
 
 
   }
@@ -425,5 +439,35 @@ getQuizesListCopy(){
     return this.QUIZES_ALL.slice();
 
 }
+
+getSuggestions(article:string,language:string):Promise<string[]>
+{
+
+
+
+  let promise =
+  new Promise<string[]>((resolve, reject) => {
+     
+    this.sparqlService.getTargetSuggestions(article,language).then(
+        
+      response => {
+          //response is the number of article returns from keyword, basically if the article exists, it is over 0
+          
+            this.suggestionsList = response;
+            resolve(this.suggestionsList);
+         
+        
+        
+        },
+        msg=>{
+            console.log("quiz.service in reject: "+msg);
+            reject('Timeout, Please try with a different Subject');
+           
+    });
+        
+        }
+    );
+        return promise;
+    }
 
 }
