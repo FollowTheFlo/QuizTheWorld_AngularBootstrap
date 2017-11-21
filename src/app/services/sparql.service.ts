@@ -93,6 +93,7 @@ export class SparqlService {
                     },
                           
                     msg => { // Error
+                        console.log("First web service call failed, probably No internet connection");
                     reject(msg);
                     }
                 );

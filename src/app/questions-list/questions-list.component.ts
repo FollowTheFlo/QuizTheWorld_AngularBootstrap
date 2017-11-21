@@ -15,6 +15,8 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class QuestionsListComponent implements OnInit {
 
 quiz:Quiz;
+ArticleWikiLink:string="";
+
 
   constructor(private quizService:QuizService, private questionService:QuestionService,private sanitizer:DomSanitizer) { }
 
@@ -22,6 +24,7 @@ quiz:Quiz;
     this.quizService.quizSelected.subscribe(
       (selectedQuiz: Quiz) => {
        this.quiz = selectedQuiz;
+        this.ArticleWikiLink = "https://en.wikipedia.org/wiki/" + this.quiz.target_name;
       
       }
     );

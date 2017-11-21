@@ -13,7 +13,6 @@ export class Quiz {
       choice_KO_number:number; //we remove the correct answer
      current_question_index:number;
       target_subjects_count:number=0;
-      target_article:string;
       current_toast:Question;
       is_finished:boolean=false;
       is_started:boolean=false;

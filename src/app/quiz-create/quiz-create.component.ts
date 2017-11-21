@@ -17,7 +17,7 @@ export class QuizCreateComponent implements OnInit {
   isCollapsed: boolean = true;
   suggestionsList:string[] = [];
   showSuggestions:boolean = false;
-  targetInputValue:string = "Paris";
+  targetInputValue:string = "";
 
   constructor(private quizService:QuizService) { }
 
@@ -92,12 +92,16 @@ export class QuizCreateComponent implements OnInit {
                     else{
 
                       this.articleStatus="no Suggestions found";
+                      this.showSuggestions = false;
+                      this.targetInputValue="";
                     }
 
                   },
                   msg=>{  
                     console.log('in Reject: quiz-create');
                     this.articleStatus=msg;
+                    this.showSuggestions = false;
+                    this.targetInputValue="";
                   });
                
                 //this.articleStatus='Not found, see below suggestions:';
@@ -118,12 +122,15 @@ export class QuizCreateComponent implements OnInit {
                     else{
 
                       this.articleStatus="no Suggestions found";
+                      this.showSuggestions = false;
+                      this.targetInputValue="";
                     }
 
                   },
                   reject=>{  
                     this.showSuggestions = false;
-                    this.articleStatus="Timeout, please Try with another subject";});
+                    this.articleStatus="Timeout, please Try a different subject";});
+                    this.targetInputValue="";
               }
             
               //this.loading = 'Finsh loading';

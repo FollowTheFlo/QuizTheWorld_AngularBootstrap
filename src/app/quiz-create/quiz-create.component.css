@@ -9,6 +9,13 @@
 {
     text-align: center;
     color:red;
+    font-weight: bold;
+}
+.loadingStatusOK
+{
+    text-align: center;
+    color:green;
+    font-weight: bold;
 }
 
 .CreateTileStyle

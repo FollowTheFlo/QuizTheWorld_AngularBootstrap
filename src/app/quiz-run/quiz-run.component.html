@@ -82,40 +82,5 @@
         </div>
     </div>
     
- <!--   
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Question {{currentQuestionIndex}}</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-     
-      <h3>{{correctString}}</h3>
 
-      <div
-      *ngFor="let c_article of CorrectionQuestion.article_shuffle_list; let k = index"
-      
-    >
-    
-    <div 
-    [ngClass]="{'QuestionChoiceElement':true, 'QuestionChoiceElementPassed': (c_article.wiki_correct == true), 'QuestionChoiceElementFailed': (c_article.wiki_correct == false &&  c_article.user_answer==true) }"
-    class="QuestionChoiceElement">
-        
-        
-      
-      <div *ngIf= CorrectionQuestion.imageQuestion >
-        {{k+1}} - <img height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(c_article.thumbnail_url)"/>
-    
-       </div>
-       <div *ngIf= !CorrectionQuestion.imageQuestion >
-        {{k+1}} - {{ c_article.article_name }}
-    
-       </div>
-    </div>
-    
-        
-  </div>
-    </div>
-  -->
   </ng-template>

@@ -142,17 +142,7 @@ RemoveEmptyQuizesFromList(){
                                             //return is_valid
                                             console.log('getOneQuestionWithArticles: '+response);
 
-                                           
-
-                                            //response is true if question containing enough article to be valid
-                                          //  if(response)
-                                          //  {
                                                 AtLeastOneValidQuestion = true;
-                                              //  console.log('info question, question.target_article.article_name: '+question.target_article.article_name);
-                                              //  console.log('info question, question.subject_OK.article_name: '+question.subject_OK.article_name);
-                                              //  console.log('info question, question.subject_KO[0].article_name: '+question.subject_KO[0].article_name);
-
-                                                
                                                
 
                                                this.build_choices_list(question);
@@ -419,7 +409,7 @@ buildImageQuestion(quiz)
     imageQuestion.subject_OK = target_article;
     imageQuestion.subject_KO = distractor_article_list;
     this.build_choices_list(imageQuestion);
-   // imageQuestion.build_imageQuestion(target_article,distractor_article_list);
+   // insert the Image question in a random index of question list
     quiz.toasts_list.splice(this.random_num_out_of(quiz.toasts_list.length),1,imageQuestion);
     
     return true;
