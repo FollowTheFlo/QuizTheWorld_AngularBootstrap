@@ -3,7 +3,7 @@
     <h2>Launch Quiz</h2>
 </div>
   <div class="DashboardTile">
-  <label>Enter Subject:</label> <input type="text" #articleNameInput value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" placeholder="Enter any subject (ex:Paris)"/>
+  <label>Enter Subject:</label> <input type="text" #articleNameInput value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" placeholder="ex:Paris"/>
   <div class="loadingStatus"  [ngClass]="{'loadingStatus':true, 'loadingStatusOK': (articleStatus == 'Finished Loading') }"
   >{{articleStatus}}</div>
 
