@@ -1,13 +1,13 @@
 .QuizElementTile
 {
    
-    background-color: #3B5998; 
+    background-color: #304269; 
     margin: 10px;
    color:white; 
      
    border: 1px solid black;       
      
-   border-radius: 5px;
+   border-radius: 3px;
    
      text-align:center;
      cursor:pointer;
@@ -21,7 +21,7 @@
    color:black; 
      
    border: 1px solid black;     
-   border-radius: 5px;  
+   border-radius: 3px; 
     
    cursor:pointer;
      text-align:center;

@@ -19,7 +19,7 @@ export class SparqlService {
 
 
     getTargetSuggestions(article:string,language:string):Promise<string[]>{
-
+        language="en";
         let SuggestionsList:string[]=[];
         let Query_target_suggestions:string = this.get_locale_SPARQL_url(language)+"?query=PREFIX dbp: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema%23> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns%23>PREFIX dbpprop: <http://dbpedia.org/property> PREFIX skos: <http://www.w3.org/2004/02/skos/core%23> PREFIX dcterms: <http://purl.org/dc/terms/>  PREFIX foaf: <http://xmlns.com/foaf/0.1/>"+
         "SELECT distinct ?suggestion_label WHERE {"+
@@ -67,7 +67,7 @@ export class SparqlService {
     }
 
     getArticleCount(article:string,language:string):Promise<number>{
-        
+        language="en";
         let Query_article_count:string = this.get_locale_SPARQL_url(language)+"?query=PREFIX dbp: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema%23> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns%23>PREFIX dbpprop: <http://dbpedia.org/property> PREFIX skos: <http://www.w3.org/2004/02/skos/core%23> PREFIX dcterms: <http://purl.org/dc/terms/>  PREFIX foaf: <http://xmlns.com/foaf/0.1/>"+
         "SELECT count(?article) as ?target_count  WHERE {?article rdfs:label '"+article+"'@"+language+" } &format=json";
 
@@ -104,7 +104,7 @@ export class SparqlService {
   
     
     getArticleSubjectCount(article:string, language:string):Promise<number>{
-
+        language="en";
         let Query_subject_count:string = this.get_locale_SPARQL_url(language)+"?query=PREFIX dbp: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema%23> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns%23>PREFIX dbpprop: <http://dbpedia.org/property> PREFIX skos: <http://www.w3.org/2004/02/skos/core%23> PREFIX dcterms: <http://purl.org/dc/terms/>  PREFIX foaf: <http://xmlns.com/foaf/0.1/>"+
        "SELECT count( DISTINCT ?subject) as ?total_count WHERE {?article rdfs:label '"+article+"'@"+language+"."+
        "?article <http://purl.org/dc/terms/subject> ?subject} &format=json";
@@ -139,6 +139,7 @@ export class SparqlService {
 
     getSubjectDistractorsCount(subjectIndex:number,article_target:string,language:string):Promise<number>{
         console.log('enter getSubjectDistractorsCount ');
+        language="en";
                 let Query_subject_distractors_count:string =this.get_locale_SPARQL_url(language)+"?query=PREFIX dbp: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema%23> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns%23>"+
                 "PREFIX dbpprop: <http://dbpedia.org/property> PREFIX skos: <http://www.w3.org/2004/02/skos/core%23> PREFIX dcterms: <http://purl.org/dc/terms/>  PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX dbo: <http://dbpedia.org/ontology/>"+
   
@@ -200,7 +201,7 @@ export class SparqlService {
                //init the article as blank to avoid null objects
                //  question.subject_OK.article_name = "none";
                 // question.subject_KO[0].article_name = "none";
-              
+              SELECTED_LOCALE="en";
 
                 
                 console.log('ENTERRRRR getOneQuestionWithArticles: '+distractor_subject_number);
@@ -355,7 +356,7 @@ export class SparqlService {
 		let locale_url:string= "https://dbpedia.org/sparql";
 		
 		if(SELECTED_LOCALE=="fr")
-			locale_url="https://fr.dbpedia.org/sparql";
+			locale_url="http://fr.dbpedia.org/sparql";
 		else if(SELECTED_LOCALE=="es")
 			locale_url="https://es.dbpedia.org/sparql";
 		

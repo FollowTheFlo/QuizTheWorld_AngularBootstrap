@@ -1,12 +1,12 @@
 <div class="DashboardTile">
-    <label>Save/Retrieve Quiz List</label> <input type="text" #usernameInput placeholder="Enter your name"/>
+    <label> {{ 'SAVE_TITLE' | translate }}</label> <input type="text" #usernameInput placeholder="{{'ENTER_NAME' | translate}}"/>
     <div class="CreateButtonStyle"><button type="button" class="btn btn-primary" (click)="onClickSaveQuizList(usernameInput)">
-    Save Quiz list on DB
+      {{ 'SAVE' | translate }}
   </button>
 </div>
 <div class="CreateButtonStyle">
   <button type="button" class="btn btn-primary" (click)="onClickRetrieveQuizList(usernameInput)">
-      Retrieve Quiz list from DB
+    {{ 'DOWNLOAD' | translate }}
     </button>
   </div>
 </div>

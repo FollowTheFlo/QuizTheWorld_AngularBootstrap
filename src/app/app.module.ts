@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 import { QuizCreateComponent } from './quiz-create/quiz-create.component';
 import { QuizesListComponent } from './quizes-list/quizes-list.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
-import { HttpModule } from '@angular/http';
-import {HttpClientModule} from '@angular/common/http';
+//import { HttpModule } from '@angular/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { ArticleDetailsComponent } from './article-details/article-details.component';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
@@ -21,9 +21,14 @@ import { QuizSaveComponent } from './quiz-save/quiz-save.component';
 import  {DataStorageService} from './services/data-storage.service';
 import  {UserService} from './services/user.service';
 import { IntroComponent } from './intro/intro.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -39,19 +44,26 @@ import { IntroComponent } from './intro/intro.component';
 
   ],
   imports: [
-    BrowserModule,
-    HttpModule,
-    HttpClientModule,
+    BrowserModule, 
     BsDropdownModule.forRoot(),
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
-    NgPipesModule
+    NgPipesModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,   
     
   ],
   providers: [SparqlService,QuizService,QuestionService,DataStorageService,UserService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }

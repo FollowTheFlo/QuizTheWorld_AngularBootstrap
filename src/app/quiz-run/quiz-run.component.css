@@ -1,13 +1,13 @@
 .QuestionChoiceElement
 {
    
-    background-color: #3B5998; 
+    background-color: #304269; 
     margin: 5px;
     padding: 5px;
    color:white; 
    border: 1px solid black;  
      text-align:left;
-     border-radius: 5px;
+     border-radius: 3px;
      cursor:pointer;
 }
 
@@ -20,7 +20,7 @@
    color:black; 
    border: 1px solid black;  
      text-align:left;
-     border-radius: 5px;
+     border-radius: 3px;
      cursor:pointer;
 }
 
@@ -34,7 +34,7 @@
    color:black; 
    border: 1px solid black;  
      text-align:left;
-     border-radius: 5px;
+     border-radius: 3px;
      cursor:pointer;
 }
 
@@ -47,7 +47,7 @@
    color:black; 
    border: 1px solid black;  
      text-align:left;
-     border-radius: 5px;
+     border-radius: 3px;
      cursor:pointer;
 }
 

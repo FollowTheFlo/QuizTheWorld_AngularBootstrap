@@ -27,11 +27,23 @@ QUIZES_ALL_INDEX:number=0;
     quizSelected = new Subject();
     showAnswerCheckBox:boolean=false;
     suggestionsList:string[] = [];
+    language:string = 'en';
    // ARTICLE_SUCCESS:number=0;
    // ARTICLE_NOT_FOUND:number=1;
    // NO_SUBJECT_FOUND:number=2
 
     constructor(private sparqlService:SparqlService) {}
+
+    getLanguage():string{
+        
+                return this.language
+            }
+        
+            setLanguage(language:string){
+        
+                this.language = language;
+                
+            }
 
     getShowAnwserCheckBoxValue(){
 

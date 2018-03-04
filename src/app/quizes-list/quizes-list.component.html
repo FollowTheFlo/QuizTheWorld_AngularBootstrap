@@ -1,6 +1,6 @@
 
 <div *ngIf=quizesList.length class="ModuleTitle">
-      <h2>Quiz List</h2>
+      <h3>{{ 'QUIZ_LIST' | translate }}</h3>
   </div>     
       <div *ngIf=quizesList.length class="DashboardTile">
         <div class="QuizElementTile"
@@ -12,17 +12,17 @@
           <br>
           <div *ngIf= !quiz.is_finished> 
             <div *ngIf= !quiz.is_started>
-              <div *ngIf= quiz.is_selected >ON PROGRESS</div>
-              <div *ngIf= !quiz.is_selected >START QUIZ</div>
+              <div *ngIf= quiz.is_selected >{{ 'PROGRESS_QUIZ' | translate }}</div>
+              <div *ngIf= !quiz.is_selected >{{ 'START_QUIZ' | translate }}</div>
               </div>
             <div *ngIf= quiz.is_started>
-                <div *ngIf= quiz.is_selected >ON PROGRESS</div>
-                <div *ngIf= !quiz.is_selected >RESUME QUIZ</div>
+                <div *ngIf= quiz.is_selected >{{ 'PROGRESS_QUIZ' | translate }}</div>
+                <div *ngIf= !quiz.is_selected >{{ 'RESUME_QUIZ' | translate }}</div>
 
             </div>
             </div>
             
-          <div *ngIf= quiz.is_finished> QUIZ FINISHED <br/>
+          <div *ngIf= quiz.is_finished> {{ 'FINISHED_QUIZ' | translate }} <br/>
             {{quiz.final_score}}%
 
           </div>

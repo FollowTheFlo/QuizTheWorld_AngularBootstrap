@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 import 'rxjs/Rx';
 import { QuizService } from '../services/quiz.service';
 import { UserService } from '../services/user.service';
@@ -9,7 +9,7 @@ import { User } from '../models/user';
 
 @Injectable()
 export class DataStorageService {
-  constructor(private http: Http, private quizService: QuizService, private userService:UserService ) {}
+  constructor(private http: HttpClient, private quizService: QuizService, private userService:UserService ) {}
 
   storeQuizesList(username:string){
     console.log("storeQuizesList");
@@ -28,10 +28,10 @@ export class DataStorageService {
   getDBQuizesList(username:string){
     console.log("getDBQuizesList");
    // let quizesList:Quiz[];
-    this.http.get("https://flo-qtw.firebaseio.com/users/"+username+".json")
+    this.http.get<User>("https://flo-qtw.firebaseio.com/users/"+username+".json")
     .map(
-      (response: Response) => {
-         const user:User = response.json();
+      (response) => {
+         const user:User = response;
        /*
         for (let quiz of quizesList) {
           if (!recipe['ingredients']) {

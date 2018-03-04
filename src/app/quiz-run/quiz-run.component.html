@@ -1,7 +1,7 @@
 <div *ngIf=quiz>
 <div *ngIf=!quiz.is_finished class="ModuleTitle">
    
-    <h2 *ngIf=!quiz.is_finished>Answer Quiz</h2>
+    <h3 *ngIf=!quiz.is_finished>{{ 'ANSWER_QUIZ' | translate }}</h3>
     </div>
 <div *ngIf=!quiz.is_finished class="DashboardTile">
    <!--
@@ -17,7 +17,7 @@
         
         
       </div>
-      <h3><b>'{{ quiz.target_name}}'</b> is best related to :</h3>
+      <h3><b>'{{ quiz.target_name}}'</b> is best related to?</h3>
       <div
       *ngFor="let article of currentQuestion.article_shuffle_list; let j = index"
       

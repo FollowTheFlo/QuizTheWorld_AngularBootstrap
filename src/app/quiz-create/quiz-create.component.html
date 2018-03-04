@@ -1,15 +1,17 @@
 
   <div class="ModuleTitle">
-    <h2>Launch Quiz</h2>
+    <h3>{{ 'LAUNCH_QUIZ' | translate }}</h3>
 </div>
   <div class="DashboardTile">
-  <label>Enter Subject:</label> <input type="text" #articleNameInput value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" placeholder="ex:Paris"/>
-  <div class="loadingStatus"  [ngClass]="{'loadingStatus':true, 'loadingStatusOK': (articleStatus == 'Finished Loading') }"
+  <label>{{ 'ENTER_SUBJECT' | translate }}</label>  <br/>
+  <input type="text" #articleNameInput value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" 
+  placeholder="{{ 'EXEMPLES' | translate }}"/>
+  <div class="loadingStatus"  [ngClass]="{'loadingStatus':true, 'loadingStatusOK': (articleStatus == 'Finished Loading')|| (articleStatus == 'Chargement terminé')}"
   >{{articleStatus}}</div>
 
   <div *ngIf=showSuggestions class="btn-group" dropdown>
   <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-   Show Suggestions 
+    {{ 'SUGGESTION_QUIZ' | translate }} 
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li class="suggestionElement" role="menuitem" *ngFor="let suggestion of suggestionsList; let i = index" 
@@ -21,11 +23,9 @@
   </ul>
 </div>
 
-  <div class="CreateButtonStyle">
+  <div class="BigButtonStyle">
    
-    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)">
-      Launch Quiz
-    </button>
+    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)">{{ 'LAUNCH_QUIZ' | translate }}</button>
 
   </div>
 
@@ -38,7 +38,7 @@
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">En</div></li>
             <li class="divider dropdown-divider"></li>
-            <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">Fr</div>
+            <li role="menuitem"><div (click)="onClickLanguage('fr')" class="dropdown-item">Fr</div>
           </ul>
         </div>
   <button type="button" class="btn btn-primary"
@@ -53,7 +53,7 @@
     <div class="DashboardTile">
 
 
-  <label>Max Questions:</label> 
+  <label>{{ 'MAX_QUESTIONS' | translate }}</label> 
   <br/>
   <input type="text" #maxQuestionsInput value={{maxQuestionsValue}} size="2"/>
 
@@ -63,7 +63,7 @@
       
     </div>
     <br>
-  <label>Max Choices:</label> 
+  <label>{{ 'MAX_CHOICES' | translate }}</label> 
   <br/>
 
   <input type="text" #maxChoicesInput value={{maxChoicesValue}}  size="2"/>
@@ -72,13 +72,13 @@
     <label class="btn btn-primary" (click)="ChoicesInc()" btnCheckbox>+</label>
 </div>
 <div class="checkbox">
-    <label><input #checkBoxShowAnswer type="checkbox" (change)=onChangeShowAnswerCheckBox() value=""><b>Show result after each question</b></label>
+    <label><input #checkBoxShowAnswer type="checkbox" (change)=onChangeShowAnswerCheckBox() value=""><b>{{ 'SHOW_ANSWER' | translate }}</b></label>
   </div>
  
 <div class="CreateButtonStyle">
     
     <button type="button" class="btn btn-primary" (click)="onClickClearQuizesList()">
-      Clear Quiz List
+      {{ 'CLEAR_LIST_QUESTION' | translate }}
     </button>
  
   </div>
