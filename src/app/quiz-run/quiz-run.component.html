@@ -1,7 +1,7 @@
 <div *ngIf=quiz>
 <div *ngIf=!quiz.is_finished class="ModuleTitle">
    
-    <h3 *ngIf=!quiz.is_finished>{{ 'ANSWER_QUIZ' | translate }}</h3>
+    <h3 id='ANSWER_QUIZ' *ngIf=!quiz.is_finished>{{ 'ANSWER_QUIZ' | translate }}</h3>
     </div>
 <div *ngIf=!quiz.is_finished class="DashboardTile">
    <!--

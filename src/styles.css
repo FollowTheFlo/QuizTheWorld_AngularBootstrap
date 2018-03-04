@@ -3,26 +3,59 @@
 {
 
    
-    margin-left: 4px;
-    margin-right: 4px;
-    background: #3B5998;
-    
-    border-radius: 10px 10px 10px 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    background: #304269;
+    margin-bottom:8px;
+    margin-top:4px;
+    border-radius: 3px;
     text-align: center;
-    vertical-align: middle;
-    color: white;
+    
+    color: #f4f4f4;
+  padding-bottom:10px;
+  padding-top:1px;
+ 
+    
 
+}
+
+.MainTitle
+{
+   
+ margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom:4px;
+background: #304269;
+
+border-radius: 3px;
+color:#f4f4f4;
+text-align: center;
+
+font-size:250%;
+padding-top:4px;
+padding-bottom:4px;
+
+}
+
+.HomeStyle
+{
+    background-color:#f4f4f4;
+    
 }
 
 .DashboardTile
 {
 
    
-    margin: 4px;
-    padding: 15px;
-    background: white;
-    border: 2px solid #000000;
-    border-radius: 10px 10px 10px 10px;
+   
+    margin-left:2px;
+    margin-right:2px;
+    margin-top:2px;
+    margin-bottom:4px;
+    padding: 10px;
+    background: lightgray;
+    border: 1px solid #000000;
+    border-radius: 3px;
     color: black;
     text-align: center;
 
@@ -40,20 +73,28 @@
 
 .TileTitle
 {
-    margin: 4px;
-background: #3B5998;
+    margin-left:2px;
+    margin-right:2px;
+    margin-top:2px;
+    margin-bottom:2px;  
+    
+background: #304269;
 border: 1px solid #FFFFFF;
-border-radius: 10px 10px 10px 10px;
-color:white;
+border-radius: 3px;
+color:#f4f4f4;
 }
 
 .FooterBar {
-    background: #3B5998;
+    background: #304269;
     font: bold 12px Arial;
     padding: 7px;
-    margin-top:5px;
+   
     text-align: center;
-    color: #FFFFFF;
-    border-radius: 10px 10px 10px 10px;
+    color: #f4f4f4;
+    border-radius: 3px;
+    margin-left:2px;
+    margin-right:2px;
+    margin-top:0px;
+    margin-bottom:2px;
     
 }

@@ -1,10 +1,10 @@
 
-  <div class="ModuleTitle">
-    <h3>{{ 'LAUNCH_QUIZ' | translate }}</h3>
+  <div class="ModuleTitle" >
+    <h3 id='LAUNCH_QUIZ'>{{ 'LAUNCH_QUIZ' | translate }}</h3>
 </div>
   <div class="DashboardTile">
   <label>{{ 'ENTER_SUBJECT' | translate }}</label>  <br/>
-  <input type="text" #articleNameInput value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" 
+  <input type="text" #articleNameInput id='targetInputValue' value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" 
   placeholder="{{ 'EXEMPLES' | translate }}"/>
   <div class="loadingStatus"  [ngClass]="{'loadingStatus':true, 'loadingStatusOK': (articleStatus == 'Finished Loading')|| (articleStatus == 'Chargement terminé')}"
   >{{articleStatus}}</div>
@@ -25,20 +25,20 @@
 
   <div class="BigButtonStyle">
    
-    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)">{{ 'LAUNCH_QUIZ' | translate }}</button>
+    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" id='LaunchQuizButton'>{{ 'LAUNCH_QUIZ' | translate }}</button>
 
   </div>
 
   
   <div class="CreateButtonStyle">
       <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" id='LanguageButton'>
             {{language}} 
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item">En</div></li>
+            <li role="menuitem"><div (click)="onClickLanguage('en')" class="dropdown-item" id='En'>En</div></li>
             <li class="divider dropdown-divider"></li>
-            <li role="menuitem"><div (click)="onClickLanguage('fr')" class="dropdown-item">Fr</div>
+            <li role="menuitem"><div (click)="onClickLanguage('fr')" class="dropdown-item" id="Fr">Fr</div>
           </ul>
         </div>
   <button type="button" class="btn btn-primary"

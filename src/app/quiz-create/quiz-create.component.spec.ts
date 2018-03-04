@@ -84,14 +84,26 @@ it('should have button label with Launch Quiz english by default',()=>{
 it('should click QuestionsInc() increment maxQuestionsValue except over 50',()=>{
 
   component.maxQuestionsValue = 10;
-  component. QuestionsInc();
+  component.QuestionsInc();
   expect(component.maxQuestionsValue).toEqual(11);
 
   //does not increment over 50
   component.maxQuestionsValue = 51;
-  component. QuestionsInc();
+  component.QuestionsInc();
   expect(component.maxQuestionsValue).toEqual(51);
 });
+
+it('should click QuestionsDec() decrement maxQuestionsValue except 0',()=>{
+  
+    component.maxQuestionsValue = 10;
+    component.QuestionsDec();
+    expect(component.maxQuestionsValue).toEqual(9);
+  
+    //does not increment over 50
+    component.maxQuestionsValue = 0;
+    component.QuestionsDec();
+    expect(component.maxQuestionsValue).toEqual(0);
+  });
 
 it('should capitalizeFirstLetter(\'test\')return \'Test\'',()=>{
   
