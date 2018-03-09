@@ -1,0 +1,153 @@
+{
+	"info": {
+		"name": "QuizTheWorld_Suite",
+		"_postman_id": "8efad72f-5614-47ab-be86-8be587f79b95",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test_NumberOfArticles_From_Keyword_Montreal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "525da446-6125-4a2a-9c57-51c03d171053",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"pm.test(\"target_Number value is 8\",()  => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.results.bindings[0].target_count.value).to.equal(\"8\");",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Body include 'target_count' \", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"target_count\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://dbpedia.org/sparql?query=PREFIX%20dbp:%20%3Chttp://dbpedia.org/resource/%3E%20PREFIX%20rdfs:%20%3Chttp://www.w3.org/2000/01/rdf-schema%23%3E%20PREFIX%20rdf:%20%3Chttp://www.w3.org/1999/02/22-rdf-syntax-ns%23%3EPREFIX%20dbpprop:%20%3Chttp://dbpedia.org/property%3E%20PREFIX%20skos:%20%3Chttp://www.w3.org/2004/02/skos/core%23%3E%20PREFIX%20dcterms:%20%3Chttp://purl.org/dc/terms/%3E%20%20PREFIX%20foaf:%20%3Chttp://xmlns.com/foaf/0.1/%3ESELECT%20count(?article)%20as%20?target_count%20%20WHERE%20{?article%20rdfs:label%20%27Montreal%27@en%20}%20&format=json",
+					"protocol": "https",
+					"host": [
+						"dbpedia",
+						"org"
+					],
+					"path": [
+						"sparql"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "PREFIX%20dbp:%20%3Chttp://dbpedia.org/resource/%3E%20PREFIX%20rdfs:%20%3Chttp://www.w3.org/2000/01/rdf-schema%23%3E%20PREFIX%20rdf:%20%3Chttp://www.w3.org/1999/02/22-rdf-syntax-ns%23%3EPREFIX%20dbpprop:%20%3Chttp://dbpedia.org/property%3E%20PREFIX%20skos:%20%3Chttp://www.w3.org/2004/02/skos/core%23%3E%20PREFIX%20dcterms:%20%3Chttp://purl.org/dc/terms/%3E%20%20PREFIX%20foaf:%20%3Chttp://xmlns.com/foaf/0.1/%3ESELECT%20count(?article)%20as%20?target_count%20%20WHERE%20{?article%20rdfs:label%20%27Montreal%27@en%20}%20",
+							"equals": true
+						},
+						{
+							"key": "format",
+							"value": "json",
+							"equals": true
+						}
+					]
+				},
+				"description": "Enter key word and return number of articles found\ninput: key word, language\noutput: number"
+			},
+			"response": []
+		},
+		{
+			"name": "Test_count_Distractor_with_keyword_Paris",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed1165b0-a5e4-46b1-aa31-18440e04c4c4",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body include 'distractor_count\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"distractor_count\");",
+							"});",
+							"",
+							"pm.test(\"distractor_count is a number\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    let is_number = Number.isInteger(Number.parseInt(jsonData.results.bindings[0].distractor_count.value,10));",
+							"    pm.expect(is_number).to.equal(true);",
+							"});",
+							"",
+							"",
+							"pm.test(\"distractor_count value > 100\",()  => {",
+							"    let jsonData = pm.response.json();",
+							"    let val = Number.parseInt(jsonData.results.bindings[0].distractor_count.value);",
+							"    console.log(\"val: \" + val);",
+							"   ",
+							"   //true if > 100",
+							"    let res= val>100 ? true : false;",
+							"   ",
+							"   ",
+							"    console.log(\"res: \" + res);",
+							"    pm.expect(res).to.equal(true);",
+							"    ",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://dbpedia.org/sparql?query=PREFIX%20dbp:%20%3Chttp://dbpedia.org/resource/%3E%20PREFIX%20rdfs:%20%3Chttp://www.w3.org/2000/01/rdf-schema%23%3E%20PREFIX%20rdf:%20%3Chttp://www.w3.org/1999/02/22-rdf-syntax-ns%23%3EPREFIX%20dbpprop:%20%3Chttp://dbpedia.org/property%3E%20PREFIX%20skos:%20%3Chttp://www.w3.org/2004/02/skos/core%23%3E%20PREFIX%20dcterms:%20%3Chttp://purl.org/dc/terms/%3E%20%20PREFIX%20foaf:%20%3Chttp://xmlns.com/foaf/0.1/%3E%20PREFIX%20dbo:%20%3Chttp://dbpedia.org/ontology/%3ESELECT%20COUNT(%20DISTINCT%20?distractor_label)%20as%20?distractor_count%20WHERE{?distractor%20%3Chttp://purl.org/dc/terms/subject%3E%20?distractor_subject.?distractor_subject%20rdfs:label%20?target_subject_label.?distractor%20rdfs:label%20?distractor_label.%20FILTER%20(langMatches(lang(?distractor_label),%27en%27))%20FILTER%20(str(?distractor_label)%20!=%20%27en%27)%20{%20SELECT%20?target_subject_label%20WHERE%20{%20%20?target_article%20rdfs:label%20%27Paris%27@en.%20?target_article%20%3Chttp://purl.org/dc/terms/subject%3E%20?target_subject.%20?target_subject%20rdfs:label%20?target_subject_label.%20FILTER%20(langMatches(lang(?target_subject_label),%27en%27))FILTER%20(str(?target_subject_label)%20!=%20%27Paris%27)}OFFSET%2010%20LIMIT%201}}&format=json",
+					"protocol": "https",
+					"host": [
+						"dbpedia",
+						"org"
+					],
+					"path": [
+						"sparql"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "PREFIX%20dbp:%20%3Chttp://dbpedia.org/resource/%3E%20PREFIX%20rdfs:%20%3Chttp://www.w3.org/2000/01/rdf-schema%23%3E%20PREFIX%20rdf:%20%3Chttp://www.w3.org/1999/02/22-rdf-syntax-ns%23%3EPREFIX%20dbpprop:%20%3Chttp://dbpedia.org/property%3E%20PREFIX%20skos:%20%3Chttp://www.w3.org/2004/02/skos/core%23%3E%20PREFIX%20dcterms:%20%3Chttp://purl.org/dc/terms/%3E%20%20PREFIX%20foaf:%20%3Chttp://xmlns.com/foaf/0.1/%3E%20PREFIX%20dbo:%20%3Chttp://dbpedia.org/ontology/%3ESELECT%20COUNT(%20DISTINCT%20?distractor_label)%20as%20?distractor_count%20WHERE{?distractor%20%3Chttp://purl.org/dc/terms/subject%3E%20?distractor_subject.?distractor_subject%20rdfs:label%20?target_subject_label.?distractor%20rdfs:label%20?distractor_label.%20FILTER%20(langMatches(lang(?distractor_label),%27en%27))%20FILTER%20(str(?distractor_label)%20!=%20%27en%27)%20{%20SELECT%20?target_subject_label%20WHERE%20{%20%20?target_article%20rdfs:label%20%27Paris%27@en.%20?target_article%20%3Chttp://purl.org/dc/terms/subject%3E%20?target_subject.%20?target_subject%20rdfs:label%20?target_subject_label.%20FILTER%20(langMatches(lang(?target_subject_label),%27en%27))FILTER%20(str(?target_subject_label)%20!=%20%27Paris%27)}OFFSET%2010%20LIMIT%201}}",
+							"equals": true
+						},
+						{
+							"key": "format",
+							"value": "json",
+							"equals": true
+						}
+					]
+				},
+				"description": "check if request return distractors. A distractor is an article that share a category with target 'Paris'."
+			},
+			"response": []
+		}
+	]
+}
