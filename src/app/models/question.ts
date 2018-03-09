@@ -15,6 +15,7 @@ export class Question{
 	answered:boolean=false;
 	answered_ok:boolean=false;
 	imageQuestion:boolean=false;
+	abstractQuestion:boolean=false;
 
    
 }

@@ -1,0 +1,60 @@
+<!--
+  <div class="ModuleTitle" >
+  <h3>Carousel</h3>
+</div>-->
+
+<div *ngIf=recommendersList class="DashboardTile">
+
+    <div class="Carousel_all">
+      
+  <carousel  [interval]="myInterval" [noWrap]="noWrapSlides" [(activeSlide)]="activeSlideIndex"  >
+      
+    <slide *ngFor="let article of countList; let i = index;" >
+      <table class="Carousel"><tr>
+
+
+            <td *ngFor="let numb of numbList; let j = index;">
+            <table class='carouselCard' >
+               
+              <tr><td> {{recommendersList[j+activeSlideIndex].article_name}}</td></tr> 
+              <tr><td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[j+activeSlideIndex].thumbnail_url)" (click)="onSelectCarousel(recommendersList[j+activeSlideIndex].article_name)"></td></tr> 
+            </table>
+            </td>
+       
+       
+
+
+
+
+          
+<!--
+        <td> {{recommendersList[i].article_name}} </td>
+        <td> {{recommendersList[i+1].article_name}} </td>
+        <td> {{recommendersList[i+2].article_name}} </td>
+        <td> {{recommendersList[i+3].article_name}} </td>
+        <td> {{recommendersList[i+4].article_name}} </td>
+
+</tr>
+<tr>
+    <td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[i].thumbnail_url)" ></td>
+    <td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[i+1].thumbnail_url)" ></td>
+    <td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[i+2].thumbnail_url)" ></td>
+    <td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[i+3].thumbnail_url)" ></td>
+    <td><img height='150'  [src]="sanitizer.bypassSecurityTrustUrl(recommendersList[i+4].thumbnail_url)" ></td>
+
+-->
+
+</tr>
+
+
+    </table>
+  
+    </slide>
+  
+  
+
+  </carousel>
+</div>
+
+
+</div>

@@ -6,6 +6,7 @@ export class Article
 	type:string;//3 types: target,distractor,subject
     wiki_correct:boolean;
     wiki_link:string="";
+    abstract:string="";
     
     constructor(type:string, article_name:string,wiki_correct:boolean){
         this.type = type;

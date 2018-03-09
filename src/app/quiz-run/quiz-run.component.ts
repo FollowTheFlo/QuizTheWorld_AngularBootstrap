@@ -24,12 +24,15 @@ export class QuizRunComponent implements OnInit {
   modalRef: BsModalRef;
   correctString:string="";
   CorrectionQuestion:Question;
+  lastQuestion:boolean=false;
+  firstQuestion:boolean=true;
 
   constructor(private quizService:QuizService, private questionService:QuestionService,private sanitizer:DomSanitizer,private modalService: BsModalService) { }
 
 
 
   ngOnInit() {
+    this.firstQuestion=true;
     this.quizService.quizSelected.subscribe(
       (selectedQuiz: Quiz) => {
        this.quiz = selectedQuiz;
@@ -96,6 +99,11 @@ export class QuizRunComponent implements OnInit {
 
   }
 
+  if(lastAnsweredQuestion==0){
+    this.firstQuestion=true;
+  }
+  else{this.firstQuestion=false;}
+
   if(lastAnsweredQuestion == this.quiz.toasts_list.length-1)
     this.NextButtonValue = 'Finish';
 
@@ -103,34 +111,25 @@ export class QuizRunComponent implements OnInit {
  
   }
 
-  onClickSelectQuestion(selectedChoiceIndex:number){
+  onClickSelectQuestion(selectedChoiceIndex:number,template:TemplateRef<any>){
 
-   // alert(selectedChoiceIndex);
     this.ClearCurrentQuestionUserSelection();
     this.currentQuestion.article_shuffle_list[selectedChoiceIndex].user_answer=true;
-    this.currentQuestion.answered=true;
-    this.quiz.is_started=true;
-  }
-
-  ClearCurrentQuestionUserSelection()
-  {
-    let i:number=0;
-    while(i<  this.currentQuestion.article_shuffle_list.length){
-      this.currentQuestion.article_shuffle_list[i].user_answer=false;
-      i++;
-    }
-
-
-  }
-
-  onClickNextQuestion(template: TemplateRef<any>){
-
-    if(this.currentQuestion.answered==false)
-    {
-      alert('Please select an answer');
-      return;
-    }
     
+           
+            this.currentQuestion.answered=true;
+            this.quiz.is_started=true;
+    setTimeout(() => { this.HandleNextQuestion(selectedChoiceIndex,template)} , 500);
+    //this.ClearCurrentQuestionUserSelection();
+  }
+    
+  HandleNextQuestion(selectedChoiceIndex:number,template:TemplateRef<any>){
+   // alert(selectedChoiceIndex);
+    
+///////////////
+
+this.firstQuestion=false;
+
     if(this.quizService.getShowAnwserCheckBoxValue())
     {
       this.GetChoiceUserSelectionIndex();
@@ -143,6 +142,7 @@ export class QuizRunComponent implements OnInit {
     {
       //alert("Last Question");
       this.NextButtonValue = 'Finish';
+      this.lastQuestion=true;
       this.currentQuestionIndex++;
       this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
     }
@@ -158,20 +158,92 @@ export class QuizRunComponent implements OnInit {
       this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
     }
     
+  /////////////////////
+    //this.currentQuestion.article_shuffle_list[selectedChoiceIndex].user_answer=true;
+    //this.currentQuestion.answered=true;
+    //this.quiz.is_started=true;
+
+    
   }
 
-  onClickPreviousQuestion(){
+  ClearCurrentQuestionUserSelection()
+  {
+    let i:number=0;
+    while(i<  this.currentQuestion.article_shuffle_list.length){
+      this.currentQuestion.article_shuffle_list[i].user_answer=false;
+      i++;
+    }
 
-    if(this.currentQuestionIndex == 0)
-    {
-      alert("First Question");
-    }
-    else{
-      this.currentQuestionIndex--;
-      this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
-    }
-   
+
   }
+
+
+  
+  onClickNextQuestion(){
+    
+          this.firstQuestion=false;
+    
+            if(this.currentQuestion.answered==false)
+            {
+              alert('Please select an answer');
+              return;
+            }
+            
+          
+
+    
+            if(this.currentQuestionIndex == this.quiz.toasts_list.length -2)
+            {
+              //alert("Last Question");
+             // this.lastQuestion=false;
+             // this.NextButtonValue = 'Finish';
+              this.currentQuestionIndex++;
+              this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
+            }
+            else if(this.currentQuestionIndex == this.quiz.toasts_list.length-1){
+              
+              //means whas click when label is Finshed, we can now close the quiz
+             // this.quiz.is_finished=true;
+              //notify that a quiz just got finished, so we will update the badge number in QuizList Tab
+            // this.quizService.quizLeaveQuizPage.next();
+             // this.CalculateTotalScore();
+              //go to page Result
+             // let quiz:Quiz= this.quiz;
+              console.log('before showFinishMessage');
+              //this.showFinishMessage();
+              //this.navCtrl.push(QuestionsListPage,{quiz});
+    
+            }
+            else{
+              //this.lastQuestion=false;
+             
+              //this.NextButtonValue = 'Next';
+              this.currentQuestionIndex++;
+              this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
+            }
+            
+          }
+    
+
+          onClickPreviousQuestion(){
+            // this.lastQuestion=false;
+           
+             
+                 if(this.currentQuestionIndex == 0)
+                 {
+                   console.log("First Question");
+                 }
+                 else{
+                   this.currentQuestionIndex--;
+                   this.currentQuestion = this.quiz.toasts_list[this.currentQuestionIndex];
+                 }
+     
+                 if(this.currentQuestionIndex == 0)
+                 this.firstQuestion=true;
+                    else
+                 this.firstQuestion=false;
+                
+               }
 
   CalculateTotalScore()
   {

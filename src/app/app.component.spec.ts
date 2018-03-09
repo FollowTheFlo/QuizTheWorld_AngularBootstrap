@@ -7,6 +7,7 @@ import { QuizesListComponent } from './quizes-list/quizes-list.component';
 import { QuizRunComponent } from './quiz-run/quiz-run.component';
 import { IntroComponent } from './intro/intro.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
+import { CarouselComponent } from './carousel/carousel.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {HttpClient, HttpClientModule,HttpHandler,} from '@angular/common/http';
 
@@ -14,6 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CollapseModule } from 'ngx-bootstrap';
 import { QuizService } from './services/quiz.service';
 import {SparqlService} from './services/sparql.service';
@@ -33,7 +35,8 @@ describe('AppComponent', () => {
         QuizesListComponent,
         QuizRunComponent,
         IntroComponent,
-        QuestionsListComponent
+        QuestionsListComponent,
+        CarouselComponent
       ],
       imports: [TranslateModule.forRoot({
         loader: {
@@ -45,6 +48,7 @@ describe('AppComponent', () => {
       BsDropdownModule.forRoot(),
       AccordionModule.forRoot(),
       ButtonsModule.forRoot(),
+      CarouselModule.forRoot(),
       BsDropdownModule.forRoot(),
       CollapseModule.forRoot(),
     ],

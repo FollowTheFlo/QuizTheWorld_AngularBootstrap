@@ -12,19 +12,19 @@
     
         <h4>{{currentQuestionIndex+1}} / {{quiz.toasts_list.length}}</h4>
       <div class="btn-group">
+          <div *ngIf=!firstQuestion>
           <label class="btn btn-primary" (click)="onClickPreviousQuestion()" btnCheckbox>Previous</label>
-        <label class="btn btn-primary" (click)="onClickNextQuestion(template)" btnCheckbox>{{NextButtonValue}}</label>
-        
+          </div>
         
       </div>
-      <h3><b>'{{ quiz.target_name}}'</b> is best related to?</h3>
+      <h3><b>'{{ quiz.target_name}}'</b> {{ 'BEST_RELATED_QUESTION'  | translate }}</h3>
       <div
       *ngFor="let article of currentQuestion.article_shuffle_list; let j = index"
       
     >
     <div 
     [ngClass]="{'QuestionChoiceElementSelected': (article.user_answer == true), 'QuestionChoiceElement': (article.user_answer == false) }"
-    class="QuestionChoiceElement" (click)="onClickSelectQuestion(j)">
+    class="QuestionChoiceElement" (click)="onClickSelectQuestion(j,template)">
     <div style='text-align: center;' *ngIf= currentQuestion.imageQuestion >
       {{j+1}} - <img  height='100' width='150' [src]="sanitizer.bypassSecurityTrustUrl(article.thumbnail_url)"/>
 

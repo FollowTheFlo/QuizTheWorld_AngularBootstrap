@@ -4,7 +4,7 @@
 </div>
   <div class="DashboardTile">
   <label>{{ 'ENTER_SUBJECT' | translate }}</label>  <br/>
-  <input type="text" #articleNameInput id='targetInputValue' value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" 
+  <input type="text" #articleNameInput id='targetInputValue' value={{targetInputValue}} (keyup.enter)="clickCreateQuiz(articleNameInput.value,false)" 
   placeholder="{{ 'EXEMPLES' | translate }}"/>
   <div class="loadingStatus"  [ngClass]="{'loadingStatus':true, 'loadingStatusOK': (articleStatus == 'Finished Loading')|| (articleStatus == 'Chargement terminé')}"
   >{{articleStatus}}</div>
@@ -15,7 +15,7 @@
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li class="suggestionElement" role="menuitem" *ngFor="let suggestion of suggestionsList; let i = index" 
-    (click)="clickCreateQuiz(suggestion,maxQuestionsInput,maxChoicesInput)"
+    (click)="clickCreateQuiz(suggestion,false)"
     >
       {{suggestion}}
 
@@ -25,7 +25,7 @@
 
   <div class="BigButtonStyle">
    
-    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,maxQuestionsInput,maxChoicesInput)" id='LaunchQuizButton'>{{ 'LAUNCH_QUIZ' | translate }}</button>
+    <button type="button" class="btn btn-lg" (click)="clickCreateQuiz(articleNameInput.value,false)" id='LaunchQuizButton'>{{ 'LAUNCH_QUIZ' | translate }}</button>
 
   </div>
 

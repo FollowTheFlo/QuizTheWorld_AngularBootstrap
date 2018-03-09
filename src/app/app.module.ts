@@ -14,6 +14,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { QuizRunComponent } from './quiz-run/quiz-run.component';
 import {NgPipesModule} from 'ngx-pipes';
@@ -23,6 +24,7 @@ import  {UserService} from './services/user.service';
 import { IntroComponent } from './intro/intro.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { CarouselComponent } from './carousel/carousel.component';
 
 
 
@@ -40,12 +42,14 @@ export function createTranslateLoader(http: HttpClient) {
     QuizRunComponent,
     QuizSaveComponent,
     IntroComponent,
+    CarouselComponent,
     
 
   ],
   imports: [
     BrowserModule, 
     BsDropdownModule.forRoot(),
+    CarouselModule.forRoot(),
     AccordionModule.forRoot(),
     ButtonsModule.forRoot(),
     BsDropdownModule.forRoot(),
