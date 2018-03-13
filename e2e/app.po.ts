@@ -1,4 +1,5 @@
 import { browser, by, element } from 'protractor';
+var fs = require('fs');
 
 export class AppPage {
   navigateTo() {
@@ -84,5 +85,24 @@ el.getAttribute('value');
    // element.all(by.css('some-css')).first().element(by.tagName('tag-within-css'));
    // element.all(by.css('some-css')).get(index).element(by.tagName('tag-within-css'));
    // element.all(by.css('some-css')).first().all(by.tagName('tag-within-css'));
+  }
+
+
+  takeScreenshot(fileName:string){
+
+    browser.takeScreenshot().then( png =>  {
+      var stream = fs.createWriteStream("screenshots/"+fileName+""+Date.now()+".png");
+      stream.write(new Buffer(png, 'base64'));
+      stream.end();
+    });
+
+    
+  }
+
+  setWindowSize(width:number,height:number){
+
+    //browser.setScreenOrientation('PORTRAIT');
+    //browser.driver.fullscreen();
+    browser.manage().window().setSize(width,height);
   }
 }
