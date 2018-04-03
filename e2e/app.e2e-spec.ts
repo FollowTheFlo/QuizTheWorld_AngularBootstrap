@@ -42,10 +42,10 @@ describe('qtw2-app App', () => {
     page.setWindowSize(600,800);
     page.clickLaunchButton();
     page.waitMilliSeconds(3000);
-    page.takeScreenshot('testSize_600_800_');
+    page.takeScreenshot('testSize_600_800__');
 
     page.setWindowSize(300,600);
-    page.takeScreenshot('testSize_300_600_');
+    page.takeScreenshot('testSize_300_600__');
    
     expect(page.getElementByID('ANSWER_QUIZ').isPresent()).toBe(true);
   });

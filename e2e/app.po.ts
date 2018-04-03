@@ -16,7 +16,7 @@ getElementByID(el:string){
   return element(by.id(el));
 }
 
-  SelectLanguageBoxFrench()
+SelectLanguageBoxFrench()
 {
   element(by.id('LanguageButton')).click();
  element(by.cssContainingText('.dropdown-item','Fr')).click();
