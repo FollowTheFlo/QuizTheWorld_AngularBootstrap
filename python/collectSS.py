@@ -126,6 +126,7 @@ fullHTMLPage = buildPage(ssList)
 if(os.path.exists(path_video)):
     video_fileList = glob.glob( path_video+"*.mp4" )
     if len(video_fileList) > 0:
+        print("Adding video: "+video_fileList[0])
         fullHTMLPage = fullHTMLPage.replace("<body>","<body><h2>Cypress Video Last Test:</h2><video width=\"700\" height=\"400\" controls><source src="+video_fileList[0]+" type=\"video/mp4\"></video>")
     else:
          print("no video file")
@@ -134,7 +135,7 @@ else:
 
 if(buildFile(fileName,fullHTMLPage)):
     ##file build success, open it in new tab
-    print("To see screenshots and video, Please open: "+fileName)
+    print("To see screenshots and video on Jenkins, Please open: http://localhost:8080/job/QuizTheWorld_Test/ws/python/TestResult.html")
     open_new_tab(fileName)
 else:
     print("Error occured on Build File")
