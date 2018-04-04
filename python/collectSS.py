@@ -2,6 +2,20 @@ import os, sys,glob
 from datetime import datetime, date, time
 from webbrowser import open_new_tab
 
+
+class videoRecording:
+    def __init__(self, title):
+        self.title = title
+
+    def getHTMLString(self):
+        return "<h2>Cypress Video Last Test:</h2><video width=\"700\" height=\"400\" controls><source src=\"%s\" type=\"video/mp4\"></video>" %(self.title)
+
+    def isFileValid(self):
+        return True
+    
+    def getFullRelativePath(self):
+        return self.title
+
 class ScreenShot:
     def __init__(self, title, path):
         self.title = title
@@ -47,7 +61,7 @@ class ScreenShot:
         <img src=\"%s\" alt=\"TestResult\" height=\"%s\" width=\"%s\" >""" % (self.getDateTime(),self.getDimension(),self.getFullRelativePath(),self.getHeight(),self.getWidth())
 
 
-def buildPage(localList):
+def buildPage(localList,buildNumber):
     ##build html with concatenation of screenshots html string and wrapped in head-body html
     htmlImgString=""
     ##concatenate string of each screenshot
@@ -62,9 +76,9 @@ def buildPage(localList):
         <head>
         <title>Screenshots from e2e testing</title>
         </head>
-        <body><h2>Selenium Screenshots</h2>%s
+        <body><h2>Build %s Results</h2>%s
         </body>
-        </html>""" % (htmlImgString)
+        </html>""" % (buildNumber,htmlImgString)
     
     return fullPage
 
@@ -85,54 +99,71 @@ def buildFile(pageName,content):
 
 
 
-# lisr files of directory
-path_ss = "..\screenshots/"
-path_video = "..\cypress/videos/"
-ssList = []
+## start of program
+## define vars
+path_ss = "../screenshots/"
+path_video = "../cypress/videos/"
+bigList = []
+filesList = []
+video_fileList = []
 fileName = "TestResult.html"
+isVideoPresent=False
+isImagePresent=False
+buildNumber="unknown"
 
-# This would print all the files and directories
+# check screenshot folder and files exist
 
-if( not os.path.exists(path_ss)):
+if(os.path.exists(path_ss)):
+    filesList = glob.glob( path_ss+"*.png" )
+    if len(filesList) > 0 :
+        isImagePresent=True
+    else:
+        print("No files in folder")
+else:
     print("The folder does not exist")
-    quit()
-    
-##get all png files, put in  List    
-filesList = glob.glob( path_ss+"*.png" )
 
-if len(filesList) <= 0 :
-    print("No files in folder")
-    quit()
-
-for file in filesList:
-    print(file)
-    ##create a Screenshot object for each png file
-    ssObj = ScreenShot(file,path_ss)
-    ##add screenshot obj in List
-    ssList.append(ssObj)
-
-
-
-    
-    
-##get all png files, put in  List    
-
-##get html page from list of screenshots obj
-fullHTMLPage = buildPage(ssList)
-
-
-##video, get the file and add it in html
-
+# check video folder and file exist
 if(os.path.exists(path_video)):
+    ##get all mp4 files, put in  List, there should be only 1
     video_fileList = glob.glob( path_video+"*.mp4" )
     if len(video_fileList) > 0:
-        print("Adding video: "+video_fileList[0])
-        fullHTMLPage = fullHTMLPage.replace("<body>","<body><h2>Cypress Video Last Test:</h2><video width=\"700\" height=\"400\" controls><source src="+video_fileList[0]+" type=\"video/mp4\"></video>")
+        isVideoPresent=True
+       ## print("Adding video: "+video_fileList[0])
+        ##fullHTMLPage = fullHTMLPage.replace("<body>","<body><h2>Cypress Video Last Test:</h2><video width=\"700\" height=\"400\" controls><source src="+video_fileList[0]+" type=\"video/mp4\"></video>")
     else:
          print("no video file")
 else:
      print("The video folder does not exist")
 
+if not isImagePresent and not isVideoPresent:
+     print("Error: no video and screenshots found")
+     print("Exit")
+     quit()
+    
+##get command args
+if len(sys.argv)>1:
+    buildNumber= sys.argv[1]
+
+ 
+if isImagePresent:
+    print("Insert screenshots in list")
+    for file in filesList:
+        print(file)
+        ##create a Screenshot object for each png file
+        ssObj = ScreenShot(file,path_ss)
+        ##add screenshot obj in List
+        bigList.append(ssObj)
+
+if isVideoPresent:
+    print("Insert video on top of list")
+    ##only 1 element in video so take index 0
+    bigList.insert(0,videoRecording(video_fileList[0]))
+
+
+##get html page from list of screenshots/videos obj list
+fullHTMLPage = buildPage(bigList,buildNumber)
+
+##build the file TestResult.html, open->injecting html content->close
 if(buildFile(fileName,fullHTMLPage)):
     ##file build success, open it in new tab
     print("To see screenshots and video on Jenkins, Please open: http://localhost:8080/job/QuizTheWorld_Test/ws/python/TestResult.html")
