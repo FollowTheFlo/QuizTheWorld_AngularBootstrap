@@ -265,7 +265,7 @@ let QUIZ_NOT_FOUND:string="";
           this.articleStatus= LOADING;
 
           //loader.present();
-         
+          this.quizService.setOptionsMaxValues(this.maxQuestionsValue.toString(),this.maxChoicesValue.toString());
           this.getOptionsList();
           this.quizService.generateQuiz(articleInputString,this.maxQuestionsValue,this.maxChoicesValue,this.language).then(
             response => {
@@ -646,6 +646,7 @@ this.quizService.getSuggestions(articleInputString,this.language).then(
   ChoicesInc(): void{
     if(this.maxChoicesValue < 51)
     +this.maxChoicesValue ++;
+    
   }
   ChoicesDec(): void{
     if(this.maxChoicesValue >0)

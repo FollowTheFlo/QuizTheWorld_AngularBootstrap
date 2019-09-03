@@ -43,6 +43,12 @@ QUIZES_ALL_INDEX:number=0;
                 return this.optionsList;
             }
 
+    setOptionsMaxValues(MaxQuestions:string,maxChoices:string){
+
+        this.optionsList[0]=MaxQuestions;
+        this.optionsList[1]=maxChoices;
+    }
+
     getLanguage():string{
         
                 return this.language
