@@ -1,28 +1,11 @@
-# Qtw2App
+ <h2>QuizTheWorld Web App</h2>
+ <p>Wikipdia-based quizes generator (2018)</p>
+ <p>This App builds and launches quizzes based on any subjects of Wikipedia, so over 5 millions potential quizzes.</p>
+ <
+ <p>Link: <a href="https://flo-qtw.firebaseapp.com/" target="_blank">https://flo-qtw.firebaseapp.com/</a></p>
+ <img class="black-border" src="https://florentletendre.com/images/qtw_web1.JPG" />
+ <table><tr>
+  <td><img class="black-border" src="https://florentletendre.com/images/qtw_web3.JPG" /></td>
+  <td><img class="black-border" src="https://florentletendre.com/images/qtw_web4.JPG" /></td>
+  </tr></table>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.5.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-"# QuizTheWorld_AngularBootsrap" 
